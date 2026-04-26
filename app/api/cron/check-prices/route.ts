@@ -9,7 +9,9 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get("authorization");
+    const authHeader =
+      request.headers.get("authorization") ||
+      request.headers.get("Authorization");
     const cronSecret = process.env.CRON_SECRET;
 
     if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
@@ -47,20 +49,16 @@ export async function POST(request: Request) {
 
     for (const product of products) {
       try {
+
         const productData = await scrapeProduct(product.url);
 
-        if (productData.currentPrice == null) {
+        if (!productData.currentPrice) {
           results.failed++;
           continue;
         }
 
         const newPrice = Number(productData.currentPrice);
-        const oldPrice = Number(product.current_price);
-
-        if (Number.isNaN(newPrice) || Number.isNaN(oldPrice)) {
-          results.failed++;
-          continue;
-        }
+        const oldPrice = parseFloat(product.current_price);
 
         await supabase
           .from("products")
@@ -86,7 +84,6 @@ export async function POST(request: Request) {
             const {
               data: { user },
             } = await supabase.auth.admin.getUserById(product.user_id);
-
             if (user?.email) {
               const emailResult = await sendPriceDropAlert(
                 user.email,
