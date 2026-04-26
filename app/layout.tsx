@@ -15,9 +15,9 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "Dealdrop - Your Ultimate Deal Aggregator",
+  title: "DealDrop - Smart Price Tracker",
   description:
-    "Discover the best deals across the web with Dealdrop, your ultimate deal aggregator. Save time and money by finding discounts in one place. Start saving today!",
+    "Track product prices from your favorite stores and get instant alerts when prices drop.",
 };
 
 export default function RootLayout({

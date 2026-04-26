@@ -55,13 +55,13 @@ export default async function Home() {
       <section className="px-4 pt-12 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24">
         <div className="mx-auto max-w-7xl text-center">
           <div className="mx-auto mb-4 inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/12 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
-            Made with ❤️ by the DealDrop team
+            Real-time price tracking
           </div>
           <h2 className="font-heading mb-4 text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Never miss a deal again
+            Catch the drop before it is gone
           </h2>
           <p className="mx-auto mb-10 max-w-2xl text-base text-muted-foreground sm:mb-12 sm:text-lg lg:text-xl">
-            Track prices and get notified when items drop to your desired price
+            Paste any product link, track price changes instantly, and get alerts when it is the right time to buy.
           </p>
 
           <div className="surface-panel mx-auto max-w-3xl p-2.5 sm:p-3.5">
@@ -93,7 +93,7 @@ export default async function Home() {
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="font-heading text-xl font-semibold text-foreground sm:text-2xl">
-              Your Tracked Products
+              Your Watchlist
             </h3>
             <span className="text-sm text-muted-foreground">
               {products.length} {products.length === 1 ? "product" : "products"}
@@ -113,10 +113,10 @@ export default async function Home() {
           <div className="surface-panel border-2 border-dashed p-8 sm:p-12">
             <TrendingDown className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
             <h3 className="font-heading mb-2 text-xl font-semibold text-foreground">
-              No products yet
+              Your watchlist is empty
             </h3>
             <p className="text-muted-foreground">
-              Add your first product above to start tracking prices!
+              Add your first product above and let DealDrop watch the price for you.
             </p>
           </div>
         </section>

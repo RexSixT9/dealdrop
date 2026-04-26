@@ -3,19 +3,19 @@ import { Rabbit, Shield, Bell } from "lucide-react";
 export const FEATURES = [
   {
     icon: Rabbit,
-    title: "Lightning Fast",
+    title: "Fast Price Scans",
     description:
-      "Deal Drop extracts prices in seconds, handling JavaScript and dynamic content",
+      "We scan product pages quickly and keep your latest price up to date.",
   },
   {
     icon: Shield,
-    title: "Always Reliable",
+    title: "Reliable Tracking",
     description:
-      "Works across all major e-commerce sites with built-in anti-bot protection",
+      "Track products across popular stores with stable, repeatable checks.",
   },
   {
     icon: Bell,
-    title: "Smart Alerts",
-    description: "Get notified instantly when prices drop below your target",
+    title: "Instant Alerts",
+    description: "Get notified the moment prices drop so you can buy at the best time.",
   },
 ];
