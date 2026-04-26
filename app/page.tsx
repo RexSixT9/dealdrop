@@ -17,15 +17,19 @@ export default async function Home() {
   const products: TrackedProduct[] = user ? await getProducts() : [];
 
   return (
-    <main className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
-      <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/80 backdrop-blur-sm dark:border-zinc-700 dark:bg-zinc-900/80">
-        <div className="max-w-7xl mx-auto px-4 py-3.5 flex items-center justify-between">
+    <main className="relative isolate min-h-screen overflow-hidden bg-linear-to-b from-background via-background to-muted/40">
+      <div
+        className="page-ambient pointer-events-none absolute left-1/2 -top-16 -z-10 h-112 w-full max-w-5xl -translate-x-1/2"
+        aria-hidden="true"
+      />
+      <header className="sticky top-0 z-10 border-b border-border/70 bg-background/80 backdrop-blur-sm supports-backdrop-filter:bg-background/65">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3.5 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3">
             <Image
               loading="eager"
               className="hidden dark:block h-10 w-auto"
               src="/logos.png"
-              alt="dark-mode-image"
+              alt="DealDrop logo"
               width={600}
               height={600}
             />
@@ -33,44 +37,48 @@ export default async function Home() {
               loading="eager"
               className="block dark:hidden h-10 w-auto"
               src="/logo.png"
-              alt="light-mode-image"
+              alt="DealDrop logo"
               width={600}
               height={600}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <ModeToggle />
             <AuthButton user={user} />
           </div>
         </div>
       </header>
-      <section className="px-4 py-20">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 text-sm bg-orange-500/20 text-orange-700 px-6 py-2 rounded-full font-medium mb-4">
+      <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl text-center">
+          <div className="mx-auto mb-4 inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/10 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
             Made with ❤️ by the DealDrop team
           </div>
-          <h2 className="text-5xl font-bold tracking-tight text-gray-900 mb-4">
+          <h2 className="font-heading mb-4 text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Never miss a deal again
           </h2>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="mx-auto mb-10 max-w-2xl text-base text-muted-foreground sm:mb-12 sm:text-xl">
             Track prices and get notified when items drop to your desired price
           </p>
 
-          <AddProductForm isAuthenticated={Boolean(user)} />
+          {/* <div className="surface-panel mx-auto max-w-3xl p-3 sm:p-4"> */}
+            <AddProductForm isAuthenticated={Boolean(user)} />
+          {/* </div> */}
 
           {/* Features Section */}
           {products.length === 0 && (
-            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16 ">
+            <div className="mx-auto mt-14 grid max-w-5xl gap-4 sm:gap-6 md:grid-cols-3">
               {FEATURES.map(({ icon: Icon, title, description }) => (
                 <div
                   key={title}
-                  className="p-6 bg-white rounded-xl border  border-gray-200"
+                  className="surface-panel p-6 text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm"
                 >
-                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                    <Icon className="w-6 h-6 text-orange-500" />
+                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-lg border border-[#FA5D19]/25 bg-linear-to-br from-[#FA5D19]/20 to-[#FA5D19]/10">
+                    <Icon className="w-6 h-6 text-[#FA5D19]" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{title}</h3>
-                  <p className="text-sm text-gray-600">{description}</p>
+                  <h3 className="font-heading mb-2 font-semibold text-foreground">
+                    {title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">{description}</p>
                 </div>
               ))}
             </div>
@@ -80,12 +88,12 @@ export default async function Home() {
 
       {/* Products Grid */}
       {user && products.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 pb-20">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold text-gray-900">
+        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <h3 className="font-heading text-xl font-semibold text-foreground sm:text-2xl">
               Your Tracked Products
             </h3>
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-muted-foreground">
               {products.length} {products.length === 1 ? "product" : "products"}
             </span>
           </div>
@@ -100,13 +108,13 @@ export default async function Home() {
 
       {/* Placeholder for when there are no products tracked yet * */}
       {user && products.length === 0 && (
-        <section className="max-w-2xl mx-auto px-4 pb-20 text-center">
-          <div className="bg-white rounded-xl border-2 border-dashed border-gray-300 p-12">
-            <TrendingDown className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <section className="mx-auto max-w-2xl px-4 pb-16 text-center sm:px-6 sm:pb-20 lg:px-8">
+          <div className="surface-panel border-2 border-dashed p-8 sm:p-12">
+            <TrendingDown className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
+            <h3 className="font-heading mb-2 text-xl font-semibold text-foreground">
               No products yet
             </h3>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Add your first product above to start tracking prices!
             </p>
           </div>

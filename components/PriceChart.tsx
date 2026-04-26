@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { Loader2 } from "lucide-react";
 import { getPriceHistory } from "@/app/auth/actions";
+import { useTheme } from "next-themes";
 
 type PriceChartProps = {
   productId: string;
@@ -25,6 +26,14 @@ type PriceChartPoint = {
 export default function PriceChart({ productId }: PriceChartProps) {
   const [data, setData] = useState<PriceChartPoint[]>([]);
   const [loading, setLoading] = useState(true);
+  const { resolvedTheme } = useTheme();
+
+  const isDark = resolvedTheme === "dark";
+  const gridColor = isDark ? "#3f3f46" : "#e5e7eb";
+  const axisColor = isDark ? "#a1a1aa" : "#9ca3af";
+  const tooltipBg = isDark ? "#18181b" : "#ffffff";
+  const tooltipBorder = isDark ? "#3f3f46" : "#e5e7eb";
+  const accentColor = "#FA5D19";
 
   useEffect(() => {
     async function loadData() {
@@ -44,7 +53,7 @@ export default function PriceChart({ productId }: PriceChartProps) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-8 text-gray-500 w-full">
+      <div className="flex w-full items-center justify-center py-8 text-muted-foreground">
         <Loader2 className="w-5 h-5 animate-spin mr-2" />
         Loading chart...
       </div>
@@ -53,7 +62,7 @@ export default function PriceChart({ productId }: PriceChartProps) {
 
   if (data.length === 0) {
     return (
-      <div className="text-center py-8 text-gray-500 w-full">
+      <div className="w-full py-8 text-center text-muted-foreground">
         No price history yet. Check back after the first daily update!
       </div>
     );
@@ -61,27 +70,30 @@ export default function PriceChart({ productId }: PriceChartProps) {
 
   return (
     <div className="w-full">
-      <h4 className="text-sm font-semibold mb-4 text-gray-700">
+      <h4 className="mb-4 text-sm font-semibold text-muted-foreground">
         Price History
       </h4>
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={220}>
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke="#9ca3af" />
-          <YAxis tick={{ fontSize: 12 }} stroke="#9ca3af" />
+          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+          <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke={axisColor} />
+          <YAxis tick={{ fontSize: 12 }} stroke={axisColor} width={42} />
           <Tooltip
             contentStyle={{
-              backgroundColor: "white",
-              border: "1px solid #e5e7eb",
+              backgroundColor: tooltipBg,
+              border: `1px solid ${tooltipBorder}`,
               borderRadius: "6px",
+              color: axisColor,
             }}
+            labelStyle={{ color: axisColor }}
+            itemStyle={{ color: accentColor }}
           />
           <Line
             type="monotone"
             dataKey="price"
-            stroke="#FA5D19"
+            stroke={accentColor}
             strokeWidth={2}
-            dot={{ fill: "#FA5D19", r: 4 }}
+            dot={{ fill: accentColor, r: 4 }}
             activeDot={{ r: 6 }}
           />
         </LineChart>

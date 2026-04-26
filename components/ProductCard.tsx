@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   ChevronDown,
   ChevronUp,
@@ -35,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [deleting, setDeleting] = useState(false);
 
   const handleDelete = async () => {
-    if (confirm("Are you sure you want to delete this product?")) return;
+    if (!confirm("Are you sure you want to delete this product?")) return;
 
     setDeleting(true);
     const result = await deleteProduct(product.id);
@@ -52,25 +51,25 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="border border-border/70 bg-card/90 transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
-        <div className="flex gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           {product.image_url && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={product.image_url}
               alt={product.name}
-              className="w-20 h-20 object-cover rounded-md border"
+              className="h-20 w-20 rounded-md border border-border bg-muted object-cover"
             />
           )}
 
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-900 line-clamp-2 mb-2">
+            <h3 className="font-heading mb-2 line-clamp-2 font-semibold text-foreground">
               {product.name}
             </h3>
 
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-orange-500">
+              <span className="text-2xl font-bold tabular-nums text-orange-500 sm:text-3xl">
                 {product.currency} {product.current_price}
               </span>
               <Badge variant="secondary" className="gap-1">
@@ -83,12 +82,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
 
       <CardContent>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
           <Button
             variant="outline"
-            size="sm"
+            size="lg"
             onClick={() => setShowChart(!showChart)}
-            className="gap-1"
+            className="w-full justify-center gap-1 sm:min-w-34 sm:w-auto"
           >
             {showChart ? (
               <>
@@ -103,7 +102,12 @@ export default function ProductCard({ product }: ProductCardProps) {
             )}
           </Button>
 
-          <Button variant="outline" size="sm" asChild className="gap-1">
+          <Button
+            variant="outline"
+            size="lg"
+            asChild
+            className="w-full justify-center gap-1 sm:min-w-34 sm:w-auto"
+          >
             <Link href={product.url} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-4 h-4" />
               View Product
@@ -112,10 +116,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           <Button
             variant="ghost"
-            size="sm"
+            size="lg"
             onClick={handleDelete}
             disabled={deleting}
-            className="text-red-600 hover:text-red-700 hover:bg-red-50 gap-1"
+            className="w-full justify-center gap-1 text-destructive hover:bg-destructive/10 hover:text-destructive sm:min-w-34 sm:w-auto"
           >
             <Trash2 className="w-4 h-4" />
             Remove

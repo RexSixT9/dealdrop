@@ -34,9 +34,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md border-border/70 bg-card/95">
         <DialogHeader>
-          <DialogTitle>Sign in to continue</DialogTitle>
+          <DialogTitle className="font-heading text-xl">Sign in to continue</DialogTitle>
           <DialogDescription>
             Track product prices and get alerts on price drops
           </DialogDescription>
@@ -46,7 +46,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <Button
             onClick={handleGoogleLogin}
             variant="outline"
-            className="w-full gap-2"
+            className="w-full gap-2 border-border/80 bg-background/60"
             size="lg"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
