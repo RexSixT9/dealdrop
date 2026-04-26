@@ -16,7 +16,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
   if (user) {
     return (
       <form action={SignOut}>
-        <Button variant="ghost" size="default" type="submit" className="gap-2 rounded-xl px-3">
+        <Button variant="outline" size="default" type="submit" className="gap-2 rounded-xl px-3">
           <LogOut className="w-4 h-4" />
           Sign Out
         </Button>
