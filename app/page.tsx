@@ -22,7 +22,7 @@ export default async function Home() {
         className="page-ambient pointer-events-none absolute inset-x-0 -top-12 -z-10 h-96 w-full sm:h-112 lg:h-136"
         aria-hidden="true"
       />
-      <header className="sticky top-0 z-10 border-b border-border/70 bg-background/80 backdrop-blur-sm supports-backdrop-filter:bg-background/65">
+      <header className="sticky top-0 z-10 border-b border-border/30 bg-linear-to-b from-background/80 to-background/58 backdrop-blur-md supports-backdrop-filter:from-background/70 supports-backdrop-filter:to-background/45">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
           <div className="flex items-center gap-3">
             <Image
