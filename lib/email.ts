@@ -2,11 +2,18 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+type Product = {
+  name: string;
+  image_url?: string;
+  url: string;
+  currency: string;
+};
+
 export async function sendPriceDropAlert(
   userEmail: string,
-  product: any,
+  product: Product,
   oldPrice: number,
-  newPrice: number
+  newPrice: number,
 ) {
   try {
     const priceDrop = oldPrice - newPrice;
@@ -18,7 +25,7 @@ export async function sendPriceDropAlert(
     }
 
     const { data, error } = await resend.emails.send({
-      from: fromEmail,
+      from: `DealDrop <${fromEmail}>`,
       to: userEmail,
       subject: `🎉 Price Drop Alert: ${product.name}`,
       html: `

@@ -115,7 +115,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Button>
 
           <Button
-            variant="ghost"
+            variant="destructive"
             size="lg"
             onClick={handleDelete}
             disabled={deleting}
