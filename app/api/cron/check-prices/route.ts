@@ -24,7 +24,14 @@ export async function POST(request: Request) {
     const { data: products, error: productsError } = await supabase
       .from("products")
       .select("*");
-
+    if (!products || products.length === 0) {
+      console.warn("⚠️ No products found in DB");
+      return NextResponse.json({
+        success: true,
+        message: "No products to process",
+        results: { total: 0 },
+      });
+    }
     if (productsError) throw productsError;
 
     console.log(`Found ${products.length} products to check`);
