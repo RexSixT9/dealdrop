@@ -17,13 +17,9 @@ export default async function Home() {
   const products: TrackedProduct[] = user ? await getProducts() : [];
 
   return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-linear-to-b from-background via-background to-muted/40">
+    <main className="relative isolate min-h-screen overflow-hidden bg-background">
       <div
-        className="page-ambient pointer-events-none absolute left-1/2 -top-24 -z-10 h-96 w-full max-w-6xl -translate-x-1/2 sm:h-112 lg:h-136"
-        aria-hidden="true"
-      />
-      <div
-        className="page-ambient-secondary pointer-events-none absolute inset-x-0 top-20 -z-10 mx-auto h-104 w-full max-w-7xl"
+        className="page-ambient pointer-events-none absolute inset-x-0 -top-12 -z-10 h-96 w-full sm:h-112 lg:h-136"
         aria-hidden="true"
       />
       <header className="sticky top-0 z-10 border-b border-border/70 bg-background/80 backdrop-blur-sm supports-backdrop-filter:bg-background/65">
@@ -52,8 +48,8 @@ export default async function Home() {
           </div>
         </div>
       </header>
-      <section className="px-4 pt-12 pb-14 sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24">
-        <div className="mx-auto max-w-7xl text-center">
+      <section className="mx-auto w-full max-w-7xl px-4 pt-12 pb-14 text-center sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24">
+        <div>
           <div className="mx-auto mb-4 inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/12 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
             Real-time price tracking
           </div>
@@ -61,12 +57,11 @@ export default async function Home() {
             Catch the drop before it is gone
           </h2>
           <p className="mx-auto mb-10 max-w-2xl text-base text-muted-foreground sm:mb-12 sm:text-lg lg:text-xl">
-            Paste any product link, track price changes instantly, and get alerts when it is the right time to buy.
+            Paste any product link, track price changes instantly, and get
+            alerts when it is the right time to buy.
           </p>
 
-          <div className="surface-panel mx-auto max-w-3xl p-2.5 sm:p-3.5">
-            <AddProductForm isAuthenticated={Boolean(user)} />
-          </div>
+          <AddProductForm isAuthenticated={Boolean(user)} />
 
           {products.length === 0 && (
             <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
@@ -116,7 +111,8 @@ export default async function Home() {
               Your watchlist is empty
             </h3>
             <p className="text-muted-foreground">
-              Add your first product above and let DealDrop watch the price for you.
+              Add your first product above and let DealDrop watch the price for
+              you.
             </p>
           </div>
         </section>
