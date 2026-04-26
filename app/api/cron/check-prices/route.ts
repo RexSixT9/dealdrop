@@ -3,18 +3,50 @@ import { scrapeProduct } from "@/lib/firecrawl/firecrawl";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
-// export async function GET() {
-//   return NextResponse.json({ message: "Prices checked" });
-// }
+function normalizeCurrencyCode(value?: string, fallback = "USD") {
+  if (!value) return fallback;
 
-export async function POST(request: Request) {
+  const trimmed = value.trim();
+  const upper = trimmed.toUpperCase();
+
+  if (/^[A-Z]{3}$/.test(upper)) return upper;
+
+  const symbolMap: Record<string, string> = {
+    "₹": "INR",
+    "$": "USD",
+    "€": "EUR",
+    "£": "GBP",
+    "¥": "JPY",
+  };
+
+  return symbolMap[trimmed] || fallback;
+}
+
+function isAuthorized(request: Request) {
+  const authHeader =
+    request.headers.get("authorization") ||
+    request.headers.get("Authorization");
+  const cronSecret = process.env.CRON_SECRET;
+
+  if (!cronSecret) {
+    console.error("CRON_SECRET is missing");
+    return false;
+  }
+
+  const authorized = authHeader === `Bearer ${cronSecret}`;
+  if (!authorized) {
+    console.warn("Cron auth failed", {
+      hasAuthHeader: Boolean(authHeader),
+      startsWithBearer: authHeader?.startsWith("Bearer ") ?? false,
+    });
+  }
+
+  return authorized;
+}
+
+async function runPriceCheck(request: Request) {
   try {
-    const authHeader =
-      request.headers.get("authorization") ||
-      request.headers.get("Authorization");
-    const cronSecret = process.env.CRON_SECRET;
-
-    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+    if (!isAuthorized(request)) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
@@ -29,11 +61,17 @@ export async function POST(request: Request) {
 
     if (productsError) throw productsError;
     if (!products || products.length === 0) {
-      console.warn("⚠️ No products found in DB");
+      console.warn("No products found in DB");
       return NextResponse.json({
         success: true,
         message: "No products to process",
-        results: { total: 0 },
+        results: {
+          total: 0,
+          updated: 0,
+          failed: 0,
+          priceChanges: 0,
+          alertsSent: 0,
+        },
       });
     }
 
@@ -49,24 +87,44 @@ export async function POST(request: Request) {
 
     for (const product of products) {
       try {
-
         const productData = await scrapeProduct(product.url);
 
-        if (!productData.currentPrice) {
+        if (productData.currentPrice == null) {
+          console.warn("Missing currentPrice from scrape", {
+            productId: product.id,
+          });
           results.failed++;
           continue;
         }
 
         const newPrice = Number(productData.currentPrice);
-        const oldPrice = parseFloat(product.current_price);
+        const oldPrice = Number(product.current_price);
+
+        if (Number.isNaN(newPrice) || Number.isNaN(oldPrice)) {
+          console.warn("Invalid product price values", {
+            productId: product.id,
+            currentPrice: productData.currentPrice,
+            previousPrice: product.current_price,
+          });
+          results.failed++;
+          continue;
+        }
+
+        const normalizedCurrency = normalizeCurrencyCode(
+          productData.currencyCode,
+          normalizeCurrencyCode(product.currency, "USD"),
+        );
+
+        const updatedName = productData.productName || product.name;
+        const updatedImage = productData.productImageUrl || product.image_url;
 
         await supabase
           .from("products")
           .update({
             current_price: newPrice,
-            currency: productData.currencyCode || product.currency,
-            name: productData.productName || product.name,
-            image_url: productData.productImageUrl || product.image_url,
+            currency: normalizedCurrency,
+            name: updatedName,
+            image_url: updatedImage,
             updated_at: new Date().toISOString(),
           })
           .eq("id", product.id);
@@ -75,26 +133,55 @@ export async function POST(request: Request) {
           await supabase.from("price_history").insert({
             product_id: product.id,
             price: newPrice,
-            currency: productData.currencyCode || product.currency,
+            currency: normalizedCurrency,
           });
 
           results.priceChanges++;
 
           if (newPrice < oldPrice) {
-            const {
-              data: { user },
-            } = await supabase.auth.admin.getUserById(product.user_id);
-            if (user?.email) {
-              const emailResult = await sendPriceDropAlert(
-                user.email,
-                product,
-                oldPrice,
-                newPrice,
-              );
+            const { data: userData, error: userError } =
+              await supabase.auth.admin.getUserById(product.user_id);
 
-              if (emailResult.success) {
-                results.alertsSent++;
-              }
+            if (userError) {
+              console.error("Unable to fetch user for price-drop alert", {
+                productId: product.id,
+                userId: product.user_id,
+                message: userError.message,
+              });
+              continue;
+            }
+
+            const userEmail = userData.user?.email;
+            if (!userEmail) {
+              console.warn("User missing email; skipping alert", {
+                productId: product.id,
+                userId: product.user_id,
+              });
+              continue;
+            }
+
+            const emailProduct = {
+              name: updatedName,
+              image_url: updatedImage,
+              url: product.url,
+              currency: normalizedCurrency,
+            };
+
+            const emailResult = await sendPriceDropAlert(
+              userEmail,
+              emailProduct,
+              oldPrice,
+              newPrice,
+            );
+
+            if (emailResult.success) {
+              results.alertsSent++;
+            } else {
+              console.error("sendPriceDropAlert failed", {
+                productId: product.id,
+                userId: product.user_id,
+                result: emailResult,
+              });
             }
           }
         }
@@ -118,4 +205,12 @@ export async function POST(request: Request) {
       { status: 500 },
     );
   }
+}
+
+export async function GET(request: Request) {
+  return runPriceCheck(request);
+}
+
+export async function POST(request: Request) {
+  return runPriceCheck(request);
 }

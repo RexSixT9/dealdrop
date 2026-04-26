@@ -34,7 +34,7 @@ export async function sendPriceDropAlert(
 
     if (newPrice >= oldPrice) {
       console.log("No drop, skipping email");
-      return { skipped: true };
+      return { success: false, skipped: true };
     }
     const { data, error } = await resend.emails.send({
       from: `DealDrop <${fromEmail}>`,
@@ -126,12 +126,12 @@ export async function sendPriceDropAlert(
 
     if (error) {
       console.error("Resend error:", error);
-      return { error };
+      return { success: false, error };
     }
 
     return { success: true, data };
   } catch (error) {
     console.error("Email error:", error);
-    return { error };
+    return { success: false, error };
   }
 }
