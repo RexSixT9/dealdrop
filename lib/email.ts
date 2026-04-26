@@ -16,14 +16,19 @@ export async function sendPriceDropAlert(
   newPrice: number,
 ) {
   try {
-    const priceDrop = oldPrice - newPrice;
-    const percentageDrop = ((priceDrop / oldPrice) * 100).toFixed(1);
-    const fromEmail = process.env.RESEND_FROM_EMAIL;
+    if (!userEmail) throw new Error("User email is required");
+    if (!product?.name || !product?.url)
+      throw new Error("Invalid product data");
+    if (newPrice >= oldPrice) return { skipped: "No price drop" };
 
+    const fromEmail = process.env.RESEND_FROM_EMAIL;
     if (!fromEmail) {
       throw new Error("RESEND_FROM_EMAIL is not configured");
     }
 
+    const priceDrop = oldPrice - newPrice;
+    const percentageDrop = ((priceDrop / oldPrice) * 100).toFixed(1);
+    
     const { data, error } = await resend.emails.send({
       from: `DealDrop <${fromEmail}>`,
       to: userEmail,
