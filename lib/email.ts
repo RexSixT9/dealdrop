@@ -26,6 +26,9 @@ export async function sendPriceDropAlert(
       throw new Error("RESEND_FROM_EMAIL is not configured");
     }
 
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+    if (!appUrl) throw new Error("NEXT_PUBLIC_APP_URL is not configured");
+
     const priceDrop = oldPrice - newPrice;
     const percentageDrop =
       oldPrice > 0 ? ((priceDrop / oldPrice) * 100).toFixed(1) : "0";
@@ -105,7 +108,7 @@ export async function sendPriceDropAlert(
                 <p>You're receiving this email because you're tracking this product on Price Tracker.</p>
                 <p style="margin-top: 10px;">
                   <a href="${
-                    process.env.NEXT_PUBLIC_APP_URL
+                    appUrl
                   }" style="color: #FA5D19; text-decoration: none;">
                     View All Tracked Products
                   </a>
