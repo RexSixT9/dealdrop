@@ -3,9 +3,9 @@ import { scrapeProduct } from "@/lib/firecrawl/firecrawl";
 import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
-export async function GET() {
-  return NextResponse.json({ message: "Prices checked" });
-}
+// export async function GET() {
+//   return NextResponse.json({ message: "Prices checked" });
+// }
 
 export async function POST(request: Request) {
   try {

@@ -27,8 +27,9 @@ export async function sendPriceDropAlert(
     }
 
     const priceDrop = oldPrice - newPrice;
-    const percentageDrop = ((priceDrop / oldPrice) * 100).toFixed(1);
-    
+    const percentageDrop =
+      oldPrice > 0 ? ((priceDrop / oldPrice) * 100).toFixed(1) : "0";
+
     const { data, error } = await resend.emails.send({
       from: `DealDrop <${fromEmail}>`,
       to: userEmail,
