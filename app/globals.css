@@ -48,6 +48,7 @@
 }
 
 :root {
+  --brand-orange: #FA5D19;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -83,6 +84,7 @@
 }
 
 .dark {
+  --brand-orange: #FA5D19;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -130,44 +132,110 @@
 
 @layer utilities {
   .surface-panel {
-    @apply border border-border/70 bg-card/75 shadow-xs backdrop-blur-sm;
+    @apply rounded-2xl border border-border/70 bg-card/75 shadow-xs backdrop-blur-sm;
   }
 
   .page-ambient {
     background-image:
       radial-gradient(
-        64% 62% at 50% 0%,
-        rgb(249 115 22 / 0.2),
-        transparent 64%
+        68% 62% at 50% 0%,
+        rgb(250 93 25 / 0.34) 0%,
+        rgb(250 93 25 / 0.18) 36%,
+        transparent 72%
       ),
+      conic-gradient(
+        from 220deg at 50% 8%,
+        rgb(250 93 25 / 0.16),
+        transparent 42%,
+        rgb(250 93 25 / 0.12) 72%,
+        transparent
+      );
+    filter: saturate(112%) blur(0.5px);
+    animation: ambient-drift 18s ease-in-out infinite alternate;
+  }
+
+  .page-ambient-secondary {
+    background-image:
       radial-gradient(
-        48% 54% at 50% 14%,
-        rgb(14 165 233 / 0.12),
+        56% 40% at 14% 40%,
+        rgb(250 93 25 / 0.14),
         transparent 72%
       ),
       radial-gradient(
-        34% 38% at 50% 22%,
-        rgb(249 115 22 / 0.1),
+        58% 42% at 86% 36%,
+        rgb(250 93 25 / 0.12),
+        transparent 72%
+      ),
+      radial-gradient(
+        44% 28% at 50% 86%,
+        rgb(250 93 25 / 0.08),
         transparent 78%
       );
+    animation: ambient-pulse 12s ease-in-out infinite;
   }
 
   .dark .page-ambient {
     background-image:
       radial-gradient(
-        64% 62% at 50% 0%,
-        rgb(249 115 22 / 0.26),
-        transparent 64%
+        68% 62% at 50% 0%,
+        rgb(250 93 25 / 0.4) 0%,
+        rgb(250 93 25 / 0.22) 36%,
+        transparent 72%
       ),
+      conic-gradient(
+        from 220deg at 50% 8%,
+        rgb(250 93 25 / 0.2),
+        transparent 42%,
+        rgb(250 93 25 / 0.15) 72%,
+        transparent
+      );
+    filter: saturate(120%) blur(0.5px);
+  }
+
+  .dark .page-ambient-secondary {
+    background-image:
       radial-gradient(
-        48% 54% at 50% 14%,
-        rgb(14 165 233 / 0.18),
+        56% 40% at 14% 40%,
+        rgb(250 93 25 / 0.2),
         transparent 72%
       ),
       radial-gradient(
-        34% 38% at 50% 22%,
-        rgb(249 115 22 / 0.14),
+        58% 42% at 86% 36%,
+        rgb(250 93 25 / 0.16),
+        transparent 72%
+      ),
+      radial-gradient(
+        44% 28% at 50% 86%,
+        rgb(250 93 25 / 0.1),
         transparent 78%
       );
+  }
+
+  @keyframes ambient-drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+      transform: translate3d(0, -12px, 0) scale(1.03);
+    }
+  }
+
+  @keyframes ambient-pulse {
+    0%,
+    100% {
+      opacity: 0.8;
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      opacity: 1;
+      transform: translate3d(0, 6px, 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-ambient,
+    .page-ambient-secondary {
+      animation: none;
+    }
   }
 }
