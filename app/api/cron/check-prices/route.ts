@@ -9,10 +9,10 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get("Authorization");
+    const authHeader = request.headers.get("authorization");
     const cronSecret = process.env.CRON_SECRET;
 
-    if (!authHeader || !cronSecret || authHeader !== `Bearer ${cronSecret}`) {
+    if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
