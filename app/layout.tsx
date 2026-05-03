@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Sora } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import PwaProvider from "@/components/PwaProvider";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -14,10 +15,29 @@ const sora = Sora({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deal-drops.vercel.app";
+
 export const metadata: Metadata = {
-  title: "DealDrop - Smart Price Tracker",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "DealDrop - Smart Price Tracker",
+    template: "%s | DealDrop",
+  },
   description:
     "Track product prices from your favorite stores and get instant alerts when prices drop.",
+  keywords: [
+    "price tracker",
+    "price drop alerts",
+    "deal tracker",
+    "product monitoring",
+    "shopping alerts",
+  ],
+  applicationName: "DealDrop",
+  manifest: "/manifest.webmanifest",
+  themeColor: "#FA5D19",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: [
       // Browsers that support prefers-color-scheme in <link> (Chrome, Edge, Firefox)
@@ -43,7 +63,31 @@ export const metadata: Metadata = {
   },
   // Open Graph / social share
   openGraph: {
-    images: [{ url: "/favicon-512.png", width: 1200, height: 630 }],
+    type: "website",
+    url: "/",
+    siteName: "DealDrop",
+    title: "DealDrop - Smart Price Tracker",
+    description:
+      "Track product prices from your favorite stores and get instant alerts when prices drop.",
+    images: [{ url: "/favicon-512.png", width: 512, height: 512, alt: "DealDrop" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "DealDrop - Smart Price Tracker",
+    description:
+      "Track product prices from your favorite stores and get instant alerts when prices drop.",
+    images: ["/favicon-512.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -65,6 +109,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <PwaProvider />
           {children}
           <Toaster
             position="bottom-right"
