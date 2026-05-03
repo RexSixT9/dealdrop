@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   // Open Graph / social share
   openGraph: {
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/favicon-512.png", width: 1200, height: 630 }],
   },
 };
 
