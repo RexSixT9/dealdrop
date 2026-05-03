@@ -45,10 +45,6 @@ export const metadata: Metadata = {
   openGraph: {
     images: [{ url: "/og-image.png", width: 1200, height: 630 }],
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FA5D19" },
-    { media: "(prefers-color-scheme: dark)", color: "#1e1e1c" },
-  ],
 };
 
 export default function RootLayout({
