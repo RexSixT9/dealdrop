@@ -18,6 +18,37 @@ export const metadata: Metadata = {
   title: "DealDrop - Smart Price Tracker",
   description:
     "Track product prices from your favorite stores and get instant alerts when prices drop.",
+  icons: {
+    icon: [
+      // Browsers that support prefers-color-scheme in <link> (Chrome, Edge, Firefox)
+      {
+        url: "/favicon-light.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicon-dark.svg",
+        type: "image/svg+xml",
+        media: "(prefers-color-scheme: dark)",
+      },
+      // Legacy PNG fallback for Safari / older browsers (see step 4)
+      {
+        url: "/favicon-32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: "/favicon-180.png", // iOS home screen icon
+    shortcut: "/favicon-32.png",
+  },
+  // Open Graph / social share
+  openGraph: {
+    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FA5D19" },
+    { media: "(prefers-color-scheme: dark)", color: "#1e1e1c" },
+  ],
 };
 
 export default function RootLayout({

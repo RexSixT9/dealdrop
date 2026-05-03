@@ -1,0 +1,6 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- DealDrop standalone mark — transparent bg, works on any surface -->
+  <path d="M4 16 L18 24 L32 33 L46 42 L60 52 L60 60 L4 60 Z" fill="#FA5D19" opacity="0.18"/>
+  <path d="M4 16 L18 24 L32 33 L46 42 L60 52" stroke="#FA5D19" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="60" cy="52" r="5" fill="#FA5D19"/>
+</svg>
