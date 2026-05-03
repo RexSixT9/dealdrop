@@ -34,7 +34,6 @@ export const metadata: Metadata = {
   ],
   applicationName: "DealDrop",
   manifest: "/manifest.webmanifest",
-  themeColor: "#FA5D19",
   alternates: {
     canonical: "/",
   },
