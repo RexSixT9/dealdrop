@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DealDrop
 
-## Getting Started
+<p align="center">
+	<picture>
+		<source media="(prefers-color-scheme: dark)" srcset="public/logos.png" />
+		<img src="public/logo.png" alt="DealDrop logo" height="64" />
+	</picture>
+</p>
 
-First, run the development server:
+<p align="center"><em>Logo adapts to light/dark mode.</em></p>
+
+DealDrop is a price-tracking web app that lets users paste product links, track price changes, and get alerts when a price drops. 📉
+
+## Screenshots 📸
+
+**Desktop**
+
+![DealDrop desktop](public/screenshots/app-desktop.png)
+
+**Mobile**
+
+![DealDrop mobile](public/screenshots/app-mobile.png)
+
+## Features ✨
+
+- Track products by URL with instant scraping 🔎
+- Watchlist with price history charts 📊
+- Email alerts on price drops 📬
+- Supabase auth and per-user product tracking 🔐
+- Scheduled price checks via cron endpoint ⏱️
+
+## Tech Stack 🧰
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Supabase (auth + database)
+- Firecrawl (product scraping)
+- Resend (email notifications)
+- Recharts (price charts)
+
+## Getting Started 🚀
+
+Clone the repo:
+
+```bash
+git clone https://github.com/RexSixT9/dealdrop.git
+cd dealdrop
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables 🔧
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a .env.local file in the project root:
 
-## Learn More
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+# or use NEXT_PUBLIC_SUPABASE_ANON_KEY instead
 
-To learn more about Next.js, take a look at the following resources:
+SUPABASE_SERVICE_ROLE_KEY=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+FIRECRAWL_API_KEY=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+RESEND_API_KEY=
+RESEND_FROM_EMAIL=
 
-## Deploy on Vercel
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+CRON_SECRET=
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Notes:
+
+- `SUPABASE_SERVICE_ROLE_KEY` is required for the cron price check endpoint.
+- `CRON_SECRET` is used as a Bearer token for scheduled checks.
+- `NEXT_PUBLIC_APP_URL` is used in email templates.
+
+## Scripts 📦
+
+- `npm run dev` - start dev server
+- `npm run dev:m` - start dev server (0.0.0.0)
+- `npm run build` - build for production
+- `npm run start` - start production server
+- `npm run lint` - run ESLint
+
+## Cron Price Checks 🕒
+
+Price checks run through the route handler in [app/api/cron/check-prices/route.ts](app/api/cron/check-prices/route.ts).
+
+Example request:
+
+```bash
+curl -X POST \
+	-H "Authorization: Bearer <CRON_SECRET>" \
+	http://localhost:3000/api/cron/check-prices
+```
+
+## Deployment 📤
+
+- Set all environment variables in your hosting provider.
+- For scheduled checks, configure a cron job to call the endpoint above.
+
+## Contributing 🤝
+
+1. Fork the repo
+2. Create a feature branch
+3. Submit a pull request
+
+## License 📄
+
+Apache License 2.0
