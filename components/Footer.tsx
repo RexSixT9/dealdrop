@@ -23,7 +23,7 @@ export default function Footer() {
             height={120}
           />
         </div>
-        <div className="text-xs text-muted-foreground sm:text-sm">
+        <div className="text-[0.7rem] leading-4 text-muted-foreground sm:text-xs sm:leading-5">
           <span>© {year} DealDrop</span>
           <span className="mx-2 text-border/70">•</span>
           <span>
