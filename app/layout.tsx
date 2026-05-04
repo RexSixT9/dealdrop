@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Sora } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import Footer from "@/components/Footer";
 import PwaProvider from "@/components/PwaProvider";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -110,6 +111,7 @@ export default function RootLayout({
         >
           <PwaProvider />
           {children}
+          <Footer />
           <Toaster
             position="bottom-right"
             toastOptions={{
