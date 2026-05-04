@@ -40,6 +40,22 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      // PNG defaults for broad mobile/browser support
+      {
+        url: "/favicon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+      {
+        url: "/favicon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+      },
+      {
+        url: "/favicon-32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
       // Browsers that support prefers-color-scheme in <link> (Chrome, Edge, Firefox)
       {
         url: "/favicon-light.svg",
@@ -51,14 +67,8 @@ export const metadata: Metadata = {
         type: "image/svg+xml",
         media: "(prefers-color-scheme: dark)",
       },
-      // Legacy PNG fallback for Safari / older browsers (see step 4)
-      {
-        url: "/favicon-32.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
     ],
-    apple: "/favicon-180.png", // iOS home screen icon
+    apple: [{ url: "/favicon-180.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/favicon-32.png",
   },
   // Open Graph / social share
