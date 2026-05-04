@@ -24,19 +24,19 @@ export default async function Home() {
       />
       <header className="sticky top-0 z-10 border-b border-border/30 bg-linear-to-b from-background/80 to-background/58 backdrop-blur-md supports-backdrop-filter:from-background/70 supports-backdrop-filter:to-background/45">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-          <div className="flex items-center gap-3">
+          <div className="flex h-7 items-center gap-3 sm:h-8">
             <Image
               loading="eager"
-              className="hidden dark:block h-10 w-auto"
-              src="/logos.png"
+              className="hidden h-6 w-auto dark:block sm:h-7 lg:h-8"
+              src="/logo-navbar-dark.svg"
               alt="DealDrop logo"
               width={600}
               height={600}
             />
             <Image
               loading="eager"
-              className="block dark:hidden h-10 w-auto"
-              src="/logo.png"
+              className="block h-6 w-auto dark:hidden sm:h-7 lg:h-8"
+              src="/logo-navbar-light.svg"
               alt="DealDrop logo"
               width={600}
               height={600}

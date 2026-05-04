@@ -1,0 +1,10 @@
+<svg width="200" height="36" viewBox="0 0 200 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="36" height="36" rx="8" fill="#FA5D19"/>
+  <path d="M6 9 L11 13 L18 17 L25 22 L30 27 L30 31 L6 31 Z" fill="white" opacity="0.18"/>
+  <path d="M6 9 L11 13 L18 17 L25 22 L30 27" stroke="white" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="30" cy="27" r="2.6" fill="white"/>
+  <text font-family="Outfit,system-ui,sans-serif" font-size="16" font-weight="600" fill="#f5f4f0">
+    <tspan x="48" y="16">Deal</tspan><tspan font-weight="800" fill="#FA5D19">Drop</tspan>
+  </text>
+  <text x="48" y="30" font-family="Outfit,system-ui,sans-serif" font-size="9" font-weight="400" fill="#5f5e5a" letter-spacing="0.05em">Catch the drop.</text>
+</svg>

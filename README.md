@@ -2,8 +2,8 @@
 
 <p align="center">
 	<picture>
-		<source media="(prefers-color-scheme: dark)" srcset="public/logos.png" />
-		<img src="public/logo.png" alt="DealDrop logo" height="64" />
+		<source media="(prefers-color-scheme: dark)" srcset="public/logo-navbar-dark-compact.svg" />
+		<img src="public/logo-navbar-light-compact.svg" alt="DealDrop logo" height="64" />
 	</picture>
 </p>
 

@@ -6,18 +6,18 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border/40 bg-background/80">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-3 px-4 py-6 text-center sm:px-6 lg:px-8">
-        <div className="flex items-center justify-center">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-2 px-4 py-5 text-center sm:gap-3 sm:px-6 sm:py-6 lg:px-8">
+        <div className="flex h-6 items-center justify-center sm:h-7 lg:h-8">
           <Image
-            className="hidden h-8 w-auto dark:block"
-            src="/logos.png"
+            className="hidden h-6 w-auto dark:block sm:h-7 lg:h-8"
+            src="/logo-footer-muted.svg"
             alt="DealDrop logo"
             width={320}
             height={120}
           />
           <Image
-            className="block h-8 w-auto dark:hidden"
-            src="/logo.png"
+            className="block h-6 w-auto dark:hidden sm:h-7 lg:h-8"
+            src="/logo-footer-muted.svg"
             alt="DealDrop logo"
             width={320}
             height={120}

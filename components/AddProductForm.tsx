@@ -73,7 +73,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin w-4 h-4 mr-2" />
+                <Loader2 className="animate-spin w-4 h-4 mr-1.5" />
                 Tracking...
               </>
             ) : (

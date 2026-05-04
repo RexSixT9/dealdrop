@@ -1,0 +1,9 @@
+<svg width="168" height="32" viewBox="0 0 168 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="7" fill="#FA5D19"/>
+  <path d="M5 8 L10 12 L16 16 L22 20 L27 25 L27 28 L5 28 Z" fill="white" opacity="0.18"/>
+  <path d="M5 8 L10 12 L16 16 L22 20 L27 25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="27" cy="25" r="2.4" fill="white"/>
+  <text font-family="Outfit,system-ui,sans-serif" font-size="18" font-weight="600" fill="#f5f4f0">
+    <tspan x="44" y="22">Deal</tspan><tspan font-weight="800" fill="#FA5D19">Drop</tspan>
+  </text>
+</svg>
