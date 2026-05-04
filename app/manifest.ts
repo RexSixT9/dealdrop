@@ -7,6 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     description:
       "Track product prices from your favorite stores and get instant alerts when prices drop.",
     start_url: "/",
+    scope: "/",
     display: "standalone",
     background_color: "#0b0b0b",
     theme_color: "#FA5D19",
