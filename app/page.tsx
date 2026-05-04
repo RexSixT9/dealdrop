@@ -24,10 +24,10 @@ export default async function Home() {
       />
       <header className="sticky top-0 z-10 border-b border-border/30 bg-linear-to-b from-background/80 to-background/58 backdrop-blur-md supports-backdrop-filter:from-background/70 supports-backdrop-filter:to-background/45">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-          <div className="flex h-7 items-center gap-3 sm:h-8">
+          <div className="flex h-8 items-center gap-3 lg:h-9">
             <Image
               loading="eager"
-              className="hidden h-6 w-auto dark:block sm:h-7 lg:h-8"
+              className="hidden h-8 w-auto dark:block lg:h-9"
               src="/logo-navbar-dark.svg"
               alt="DealDrop logo"
               width={600}
@@ -35,7 +35,7 @@ export default async function Home() {
             />
             <Image
               loading="eager"
-              className="block h-6 w-auto dark:hidden sm:h-7 lg:h-8"
+              className="block h-8 w-auto dark:hidden lg:h-9"
               src="/logo-navbar-light.svg"
               alt="DealDrop logo"
               width={600}
@@ -48,15 +48,15 @@ export default async function Home() {
           </div>
         </div>
       </header>
-      <section className="mx-auto w-full max-w-7xl px-4 pt-12 pb-14 text-center sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24">
-        <div>
-          <div className="mx-auto mb-4 inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/12 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
+      <section className="mx-auto w-full max-w-7xl px-4 pt-10 pb-12 text-center sm:px-6 sm:pt-12 sm:pb-16 lg:px-8 lg:pt-16 lg:pb-20">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 sm:gap-5 lg:gap-6">
+          <div className="mx-auto inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/12 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
             Real-time price tracking
           </div>
-          <h2 className="font-heading mb-4 text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h2 className="font-heading text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Catch the drop before it is gone
           </h2>
-          <p className="mx-auto mb-10 max-w-2xl text-base text-muted-foreground sm:mb-12 sm:text-lg lg:text-xl">
+          <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg lg:text-xl">
             Paste any product link, track price changes instantly, and get
             alerts when it is the right time to buy.
           </p>
@@ -64,7 +64,7 @@ export default async function Home() {
           <AddProductForm isAuthenticated={Boolean(user)} />
 
           {products.length === 0 && (
-            <div className="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6">
+            <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
               {FEATURES.map(({ icon: Icon, title, description }) => (
                 <div
                   key={title}
@@ -85,7 +85,7 @@ export default async function Home() {
       </section>
 
       {user && products.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
+        <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="font-heading text-xl font-semibold text-foreground sm:text-2xl">
               Your Watchlist
@@ -104,7 +104,7 @@ export default async function Home() {
       )}
 
       {user && products.length === 0 && (
-        <section className="mx-auto max-w-2xl px-4 pb-16 text-center sm:px-6 sm:pb-20 lg:px-8 lg:pb-24">
+        <section className="mx-auto max-w-2xl px-4 pb-12 text-center sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
           <div className="surface-panel border-2 border-dashed p-8 sm:p-12">
             <TrendingDown className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
             <h3 className="font-heading mb-2 text-xl font-semibold text-foreground">
