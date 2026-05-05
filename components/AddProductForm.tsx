@@ -56,7 +56,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
     <>
       <form className="mx-auto w-full max-w-2xl" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-3 md:flex-row">
+        <div className="flex flex-col gap-4 md:flex-row md:gap-3">
           <Input
             type="url"
             placeholder="Enter product URL"

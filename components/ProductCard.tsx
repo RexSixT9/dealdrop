@@ -82,7 +82,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
 
       <CardContent>
-        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button
             variant="outline"
             size="lg"

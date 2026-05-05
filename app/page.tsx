@@ -48,8 +48,8 @@ export default async function Home() {
           </div>
         </div>
       </header>
-      <section className="mx-auto w-full max-w-7xl px-4 pt-10 pb-12 text-center sm:px-6 sm:pt-12 sm:pb-16 lg:px-8 lg:pt-16 lg:pb-20">
-        <div className="mx-auto flex max-w-4xl flex-col items-center gap-4 sm:gap-5 lg:gap-6">
+      <section className="section-pad-hero mx-auto w-full max-w-7xl text-center">
+        <div className="mx-auto flex max-w-4xl flex-col items-center stack-hero">
           <div className="mx-auto inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/12 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
             Real-time price tracking
           </div>
@@ -64,29 +64,33 @@ export default async function Home() {
           <AddProductForm isAuthenticated={Boolean(user)} />
 
           {products.length === 0 && (
-            <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-2 sm:gap-5 lg:mt-14 lg:grid-cols-3 lg:gap-6">
-              {FEATURES.map(({ icon: Icon, title, description }) => (
-                <div
-                  key={title}
-                  className="surface-panel h-full p-5 text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm sm:p-6"
-                >
-                  <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FA5D19]/25 bg-[#FA5D19]/12">
-                    <Icon className="w-6 h-6 text-[#FA5D19]" />
-                  </div>
-                  <h3 className="font-heading mb-2 font-semibold text-foreground">
-                    {title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{description}</p>
+            <div className="mx-auto mt-10 w-full max-w-6xl sm:mt-12 lg:mt-14">
+              <div className="border-t border-border/50 pt-8 sm:pt-10 lg:pt-12">
+                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7">
+                  {FEATURES.map(({ icon: Icon, title, description }) => (
+                    <div
+                      key={title}
+                      className="surface-panel h-full p-5 text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm sm:p-6"
+                    >
+                      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FA5D19]/25 bg-[#FA5D19]/12">
+                        <Icon className="w-6 h-6 text-[#FA5D19]" />
+                      </div>
+                      <h3 className="font-heading mb-2 font-semibold text-foreground">
+                        {title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground">{description}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           )}
         </div>
       </section>
 
       {user && products.length > 0 && (
-        <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
-          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <section className="section-pad mx-auto max-w-7xl">
+          <div className="mb-6 flex flex-col gap-2 sm:mb-7 sm:flex-row sm:items-center sm:justify-between lg:mb-8">
             <h3 className="font-heading text-xl font-semibold text-foreground sm:text-2xl">
               Your Watchlist
             </h3>
@@ -104,7 +108,7 @@ export default async function Home() {
       )}
 
       {user && products.length === 0 && (
-        <section className="mx-auto max-w-2xl px-4 pb-12 text-center sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
+        <section className="section-pad mx-auto max-w-2xl text-center">
           <div className="surface-panel border-2 border-dashed p-8 sm:p-12">
             <TrendingDown className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
             <h3 className="font-heading mb-2 text-xl font-semibold text-foreground">
