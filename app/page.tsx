@@ -6,7 +6,7 @@ import AuthButton from "@/components/AuthButton";
 import ProductCard, { type TrackedProduct } from "../components/ProductCard";
 import { getProducts } from "@/app/auth/actions";
 import { createClient } from "@/lib/supabase/server";
-import { TrendingDown } from "lucide-react";
+import { Sparkles, TrendingDown } from "lucide-react";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -50,7 +50,8 @@ export default async function Home() {
       </header>
       <section className="section-pad-hero mx-auto w-full max-w-7xl text-center">
         <div className="mx-auto flex max-w-4xl flex-col items-center stack-hero">
-          <div className="mx-auto inline-flex w-fit items-center justify-center gap-2 rounded-full border border-[#FA5D19]/25 bg-[#FA5D19]/12 px-4 py-2 text-center text-sm font-medium text-[#B44414] dark:text-[#FF9D72]">
+          <div className="hero-badge mx-auto inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-semibold sm:px-4 sm:py-2 sm:text-sm lg:px-5 lg:py-2.5 lg:text-base">
+            <Sparkles className="h-3.5 w-3.5 text-current opacity-90 sm:h-4 sm:w-4" />
             Real-time price tracking
           </div>
           <h2 className="font-heading text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">

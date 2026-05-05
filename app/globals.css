@@ -147,6 +147,40 @@
     @apply gap-5 sm:gap-6 lg:gap-7;
   }
 
+  .hero-badge {
+    --hero-badge-border: color-mix(in oklab, var(--brand-orange) 38%, transparent);
+    --hero-badge-bg: color-mix(in oklab, var(--brand-orange) 14%, transparent);
+    --hero-badge-text: color-mix(in oklab, var(--foreground) 75%, var(--brand-orange) 25%);
+    position: relative;
+    border-radius: 9999px;
+    border: 1px solid var(--hero-badge-border);
+    background: linear-gradient(120deg, var(--hero-badge-bg), transparent 70%);
+    color: var(--hero-badge-text);
+    text-align: center;
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--brand-orange) 12%, transparent),
+      0 10px 24px -20px color-mix(in oklab, var(--brand-orange) 45%, transparent);
+  }
+
+  .hero-badge::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    border: 1px solid color-mix(in oklab, var(--brand-orange) 18%, transparent);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .dark .hero-badge {
+    --hero-badge-border: color-mix(in oklab, var(--brand-orange) 46%, transparent);
+    --hero-badge-bg: color-mix(in oklab, var(--brand-orange) 20%, transparent);
+    --hero-badge-text: color-mix(in oklab, var(--foreground) 70%, var(--brand-orange) 30%);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--brand-orange) 18%, transparent),
+      0 12px 28px -22px color-mix(in oklab, var(--brand-orange) 55%, transparent);
+  }
+
   .page-ambient {
     background-image:
       radial-gradient(
