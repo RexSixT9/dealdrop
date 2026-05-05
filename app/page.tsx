@@ -50,14 +50,14 @@ export default async function Home() {
       </header>
       <section className="section-pad-hero mx-auto w-full max-w-7xl text-center">
         <div className="mx-auto flex max-w-4xl flex-col items-center stack-hero">
-          <div className="hero-badge mx-auto inline-flex items-center justify-center gap-2 px-3 py-1.5 text-xs font-semibold sm:px-4 sm:py-2 sm:text-sm lg:px-5 lg:py-2.5 lg:text-base">
-            <Sparkles className="h-3.5 w-3.5 text-current opacity-90 sm:h-4 sm:w-4" />
+          <div className="hero-badge mx-auto inline-flex items-center justify-center gap-2 px-3 py-1.5 text-[11px] font-semibold sm:px-4 sm:py-2 sm:text-xs md:text-sm lg:px-5 lg:py-2.5">
+            <Sparkles className="h-3 w-3 text-current opacity-90 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4" />
             Real-time price tracking
           </div>
-          <h2 className="font-heading text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h2 className="font-heading text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl sm:leading-tight md:text-5xl lg:text-6xl">
             Catch the drop before it is gone
           </h2>
-          <p className="mx-auto max-w-2xl text-base text-muted-foreground sm:text-lg lg:text-xl">
+          <p className="mx-auto max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base md:text-lg">
             Paste any product link, track price changes instantly, and get
             alerts when it is the right time to buy.
           </p>
