@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-	<a href="https://deal-drops.vercel.app/">Live Demo</a>
+	<a href="https://dealdropss.vercel.app/">Live Demo</a>
 	·
 	<a href="https://github.com/RexSixT9/dealdrop">Repository</a>
 	·
@@ -89,7 +89,7 @@ Open http://localhost:3000 to view the app.
 
 ## Live Demo 🌐
 
-https://deal-drops.vercel.app/
+https://dealdropss.vercel.app/
 
 ## Environment Variables 🔧
 
