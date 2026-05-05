@@ -56,6 +56,17 @@ DealDrop is a price-tracking web app that lets users paste product links, track 
 - Resend (email notifications)
 - Recharts (price charts)
 
+## Why These Choices ✅
+
+- Next.js App Router for file-based routing, server components, and easy deployment.
+- React for a predictable component model and fast UI iteration.
+- TypeScript for safer refactors and fewer runtime errors.
+- Tailwind CSS to keep styles close to components and ship UI quickly.
+- Supabase to get auth, database, and row-level security with minimal setup.
+- Firecrawl to reliably extract product data from messy, real-world pages.
+- Resend for straightforward, reliable transactional email delivery.
+- Recharts to visualize price history with accessible, responsive charts.
+
 ## Architecture 🧭
 
 - UI in App Router pages and components
@@ -63,6 +74,61 @@ DealDrop is a price-tracking web app that lets users paste product links, track 
 - Supabase for auth, products, and price history
 - Firecrawl for scraping product metadata and prices
 - Cron endpoint for scheduled price checks and alert fan-out
+
+## How It Works ⚙️
+
+1. Sign in with Supabase auth to create your private watchlist.
+2. Paste a product URL to start tracking; Firecrawl scrapes title, price, and image.
+3. A cron job calls the check endpoint to refresh prices on a schedule.
+4. Price history is stored in Supabase and displayed in charts.
+5. When the price drops, Resend sends an alert email with a direct link.
+
+## Project Structure 📁
+
+```
+app/
+	api/
+		cron/
+			check-prices/
+				route.ts
+	auth/
+		actions.ts
+		callback/
+			route.ts
+	globals.css
+	layout.tsx
+	manifest.ts
+	page.tsx
+	robots.ts
+	sitemap.ts
+components/
+	ui/
+	AddProductForm.tsx
+	AuthButton.tsx
+	AuthModal.tsx
+	Footer.tsx
+	PriceChart.tsx
+	ProductCard.tsx
+	PwaProvider.tsx
+	mode-toggle.tsx
+	theme-provider.tsx
+constants/
+	data.ts
+lib/
+	firecrawl/
+		firecrawl.ts
+	supabase/
+		client.ts
+		env.ts
+		middleware.ts
+		proxy.ts
+		server.ts
+	email.ts
+	utils.ts
+public/
+	screenshots/
+	sw.js
+```
 
 ## Getting Started 🚀
 
