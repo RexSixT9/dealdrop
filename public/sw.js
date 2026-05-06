@@ -34,6 +34,7 @@ const networkFirst = async (request) => {
     cachePut(request, copy);
     return response;
   } catch (error) {
+    console.error("Fetch failed; returning cached page instead.", error);
     return cacheFallback(request);
   }
 };
