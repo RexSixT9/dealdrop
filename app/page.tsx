@@ -3,7 +3,8 @@ import Image from "next/image";
 import { FEATURES } from "@/constants/data";
 import AddProductForm from "@/components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
-import ProductCard, { type TrackedProduct } from "../components/ProductCard";
+import { type TrackedProduct } from "../components/ProductCard";
+import ProductGrid from "@/components/ProductGrid";
 import { getProducts } from "@/app/auth/actions";
 import { createClient } from "@/lib/supabase/server";
 import { Sparkles, TrendingDown } from "lucide-react";
@@ -120,11 +121,7 @@ async function ProductsSection({ user }: { user: unknown }) {
             </span>
           </div>
 
-          <div className="grid items-start gap-5 sm:gap-6 md:grid-cols-2">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <ProductGrid products={products} />
         </section>
       )}
 
