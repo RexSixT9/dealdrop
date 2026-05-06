@@ -16,7 +16,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
   if (user) {
     return (
       <form action={SignOut}>
-        <Button variant="outline" size="default" type="submit" className="gap-2 rounded-xl px-3">
+        <Button variant="outline" size="default" type="submit" className="gap-2 rounded-xl px-3 text-base">
           <LogOut className="w-4 h-4" />
           Sign Out
         </Button>
@@ -30,7 +30,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
         onClick={() => setShowAuthModal(true)}
         variant="default"
         size="default"
-        className="gap-2 rounded-xl bg-[#FA5D19] px-3 text-white hover:bg-[#FA5D19]/90"
+        className="gap-2 rounded-xl bg-[#FA5D19] px-3 text-base text-white hover:bg-[#FA5D19]/90"
       >
         <LogIn className="w-4 h-4" />
         Sign In

@@ -69,7 +69,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
           <Button
             type="submit"
             disabled={loading || !url.trim()}
-            className="h-12 w-full rounded-xl bg-[#FA5D19] px-6 text-white shadow-xs hover:bg-[#FA5D19]/90 md:w-auto md:px-8"
+            className="h-12 w-full rounded-xl bg-[#FA5D19] px-6 text-base text-white shadow-xs hover:bg-[#FA5D19]/90 md:w-auto md:px-8"
           >
             {loading ? (
               <>

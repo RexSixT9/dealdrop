@@ -92,7 +92,7 @@ async function ProductsSection({ user }: { user: unknown }) {
                 {FEATURES.map(({ icon: Icon, title, description }) => (
                   <div
                     key={title}
-                    className="surface-panel h-full p-5 text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm sm:p-6"
+                    className="surface-panel flex h-full flex-col items-center justify-center p-5 text-center text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm sm:p-6"
                   >
                     <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FA5D19]/25 bg-[#FA5D19]/12">
                       <Icon className="w-6 h-6 text-[#FA5D19]" />
