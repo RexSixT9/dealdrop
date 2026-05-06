@@ -5,7 +5,7 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/40 bg-background/80">
+    <footer className="border-t border-border/40 bg-background">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-2 px-4 py-4 text-center sm:gap-1.5 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
         <div className="flex h-8 items-center justify-center sm:h-9 lg:h-10">
           <Image
@@ -23,12 +23,12 @@ export default function Footer() {
             height={120}
           />
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-1.5 text-center text-xs leading-5 text-muted-foreground/70 sm:text-sm sm:leading-6">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 text-center text-xs leading-5 text-muted-foreground/90 sm:text-sm sm:leading-6">
           <span>© {year} DealDrop</span>
-          <span className="text-border/70">•</span>
+          <span className="text-muted-foreground/80">•</span>
           <Link
             href="https://github.com/RexSixT9"
-            className="font-medium text-muted-foreground/70 transition-colors hover:text-foreground/90"
+            className="font-medium text-muted-foreground/90 transition-colors hover:text-foreground"
           >
             RexSixT9
           </Link>

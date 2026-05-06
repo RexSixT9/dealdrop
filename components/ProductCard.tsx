@@ -15,6 +15,8 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import PriceChart from "./PriceChart";
+import Image from "next/image";
+import { productImageLoader } from "@/lib/image-loader";
 
 export type TrackedProduct = {
   id: string;
@@ -55,10 +57,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       <CardHeader className="pb-3">
         <div className="flex flex-col gap-4 sm:flex-row">
           {product.image_url && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={product.image_url}
               alt={product.name}
+              width={80}
+              height={80}
+              sizes="80px"
+              quality={70}
+              loading="lazy"
+              decoding="async"
+              loader={productImageLoader}
               className="h-20 w-20 rounded-md border border-border bg-muted object-cover"
             />
           )}
