@@ -12,6 +12,32 @@ const STATIC_ASSETS = [
   "/manifest.webmanifest",
 ];
 
+const cachePut = async (request, response) => {
+  const cache = await caches.open(RUNTIME_CACHE);
+  await cache.put(request, response);
+};
+
+const cacheFallback = async (request) => {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  return new Response("Network error", {
+    status: 504,
+    statusText: "Gateway Timeout",
+  });
+};
+
+const networkFirst = async (request) => {
+  try {
+    const response = await fetch(request);
+    const copy = response.clone();
+    cachePut(request, copy);
+    return response;
+  } catch (error) {
+    return cacheFallback(request);
+  }
+};
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
@@ -47,13 +73,7 @@ self.addEventListener("fetch", (event) => {
 
   if (event.request.mode === "navigate") {
     event.respondWith(
-      fetch(event.request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(RUNTIME_CACHE).then((cache) => cache.put(event.request, copy));
-          return response;
-        })
-        .catch(() => caches.match(event.request)),
+      networkFirst(event.request),
     );
     return;
   }
@@ -69,23 +89,11 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       caches.match(event.request).then((cached) => {
         if (cached) return cached;
-        return fetch(event.request).then((response) => {
-          const copy = response.clone();
-          caches.open(RUNTIME_CACHE).then((cache) => cache.put(event.request, copy));
-          return response;
-        });
+        return networkFirst(event.request);
       }),
     );
     return;
   }
 
-  event.respondWith(
-    fetch(event.request)
-      .then((response) => {
-        const copy = response.clone();
-        caches.open(RUNTIME_CACHE).then((cache) => cache.put(event.request, copy));
-        return response;
-      })
-      .catch(() => caches.match(event.request)),
-  );
+  event.respondWith(networkFirst(event.request));
 });
