@@ -34,7 +34,6 @@ export const metadata: Metadata = {
     "shopping alerts",
   ],
   applicationName: "DealDrop",
-  manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/",
   },
@@ -112,6 +111,12 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${sora.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://images.weserv.nl" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.weserv.nl" />
+        <link rel="preconnect" href="https://m.media-amazon.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://m.media-amazon.com" />
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
