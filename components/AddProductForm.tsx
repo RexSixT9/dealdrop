@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import { AuthModal } from "./AuthModal";
 import { addProduct } from "@/app/auth/actions";
 import { toast } from "sonner";
@@ -73,7 +73,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin w-4 h-4 mr-1.5" />
+                <Loader className="animate-spin w-4 h-4 mr-1.5" />
                 Tracking...
               </>
             ) : (
