@@ -7,14 +7,13 @@ import ProductCard, { type TrackedProduct } from "../components/ProductCard";
 import { getProducts } from "@/app/auth/actions";
 import { createClient } from "@/lib/supabase/server";
 import { Sparkles, TrendingDown } from "lucide-react";
+import { Suspense } from "react";
 
 export default async function Home() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-
-  const products: TrackedProduct[] = user ? await getProducts() : [];
 
   return (
     <main className="relative isolate min-h-screen overflow-hidden bg-background">
@@ -63,31 +62,52 @@ export default async function Home() {
           </p>
 
           <AddProductForm isAuthenticated={Boolean(user)} />
-
-          {products.length === 0 && (
-            <div className="mx-auto mt-10 w-full max-w-6xl sm:mt-12 lg:mt-14">
-              <div className="border-t border-border/50 pt-8 sm:pt-10 lg:pt-12">
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7">
-                  {FEATURES.map(({ icon: Icon, title, description }) => (
-                    <div
-                      key={title}
-                      className="surface-panel h-full p-5 text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm sm:p-6"
-                    >
-                      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FA5D19]/25 bg-[#FA5D19]/12">
-                        <Icon className="w-6 h-6 text-[#FA5D19]" />
-                      </div>
-                      <h3 className="font-heading mb-2 font-semibold text-foreground">
-                        {title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">{description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </section>
+      <Suspense fallback={<ProductsFallback />}>
+        <ProductsSection user={user} />
+      </Suspense>
+    </main>
+  );
+}
+
+function ProductsFallback() {
+  return (
+    <section className="section-pad mx-auto w-full max-w-7xl">
+      <div className="h-24 w-full animate-pulse rounded-2xl border border-border/60 bg-card/60" />
+    </section>
+  );
+}
+
+async function ProductsSection({ user }: { user: unknown }) {
+  const products: TrackedProduct[] = user ? await getProducts() : [];
+
+  return (
+    <>
+      {products.length === 0 && (
+        <section className="section-pad mx-auto w-full max-w-7xl">
+          <div className="mx-auto w-full max-w-6xl">
+            <div className="border-t border-border/50 pt-8 sm:pt-10 lg:pt-12">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7">
+                {FEATURES.map(({ icon: Icon, title, description }) => (
+                  <div
+                    key={title}
+                    className="surface-panel h-full p-5 text-card-foreground transition-transform duration-200 hover:-translate-y-1 hover:shadow-sm sm:p-6"
+                  >
+                    <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-[#FA5D19]/25 bg-[#FA5D19]/12">
+                      <Icon className="w-6 h-6 text-[#FA5D19]" />
+                    </div>
+                    <h3 className="font-heading mb-2 font-semibold text-foreground">
+                      {title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">{description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {user && products.length > 0 && (
         <section className="section-pad mx-auto max-w-7xl">
@@ -122,6 +142,6 @@ export default async function Home() {
           </div>
         </section>
       )}
-    </main>
+    </>
   );
 }

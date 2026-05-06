@@ -10,8 +10,6 @@ const STATIC_ASSETS = [
   "/favicon-180.png",
   "/favicon-light.svg",
   "/favicon-dark.svg",
-  "/logo.png",
-  "/logos.png",
   "/manifest.webmanifest",
 ];
 
