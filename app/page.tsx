@@ -85,7 +85,7 @@ async function ProductsSection({ user }: { user: unknown }) {
 
   return (
     <>
-      {products.length === 0 && (
+      {!user && products.length === 0 && (
         <section className="section-pad mx-auto w-full max-w-7xl">
           <div className="mx-auto w-full max-w-6xl">
             <div className="border-t border-border/50 pt-8 sm:pt-10 lg:pt-12">
