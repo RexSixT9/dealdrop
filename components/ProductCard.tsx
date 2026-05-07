@@ -55,7 +55,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="border border-border/70 bg-card/90 transition-shadow hover:shadow-md">
       <CardHeader className="pb-3">
-        <div className="flex flex-col gap-4 sm:flex-row">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           {product.image_url && (
             <Image
               src={product.image_url}
@@ -67,7 +67,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               loading="lazy"
               decoding="async"
               loader={productImageLoader}
-              className="h-20 w-20 rounded-md border border-border bg-muted object-cover"
+              className="h-20 w-20 rounded-xl border border-border bg-muted object-cover"
             />
           )}
 
@@ -95,7 +95,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             variant="outline"
             size="lg"
             onClick={() => setShowChart(!showChart)}
-            className="w-full justify-center gap-1 sm:min-w-34 sm:w-auto"
+            className="w-full justify-center gap-1 sm:flex-1 sm:min-w-38"
           >
             {showChart ? (
               <>
@@ -114,7 +114,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             variant="outline"
             size="lg"
             asChild
-            className="w-full justify-center gap-1 sm:min-w-34 sm:w-auto"
+            className="w-full justify-center gap-1 sm:flex-1 sm:min-w-38"
           >
             <Link href={product.url} target="_blank" rel="noopener noreferrer">
               <ExternalLink className="w-4 h-4" />
@@ -127,7 +127,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             size="lg"
             onClick={handleDelete}
             disabled={deleting}
-            className="w-full justify-center gap-1 text-destructive hover:bg-destructive/10 hover:text-destructive sm:min-w-34 sm:w-auto"
+            className="w-full justify-center gap-1 text-destructive hover:bg-destructive/10 hover:text-destructive sm:flex-1 sm:min-w-38"
           >
             <Trash2 className="w-4 h-4" />
             Remove

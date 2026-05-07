@@ -56,7 +56,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
   return (
     <>
       <form className="mx-auto w-full max-w-2xl" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-4 md:flex-row md:gap-3">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-3">
           <Input
             type="url"
             placeholder="Enter product URL"
@@ -64,12 +64,12 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
             onChange={(e) => setUrl(e.target.value)}
             required
             disabled={loading}
-            className="h-12 rounded-xl border-border/80 bg-card/70 text-base shadow-xs md:flex-1"
+            className="h-12 rounded-xl border-border/80 bg-card/70 text-base shadow-xs sm:flex-1"
           />
           <Button
             type="submit"
             disabled={loading || !url.trim()}
-            className="h-12 w-full rounded-xl bg-[#FA5D19] px-6 text-base text-white shadow-xs hover:bg-[#FA5D19]/90 md:w-auto md:px-8"
+            className="h-12 w-full rounded-xl bg-[#FA5D19] px-6 text-base text-white shadow-xs hover:bg-[#FA5D19]/90 sm:w-auto sm:px-8"
           >
             {loading ? (
               <>

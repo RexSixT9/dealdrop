@@ -8,6 +8,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sora);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -48,13 +49,14 @@
 }
 
 :root {
-  --brand-orange: #FA5D19;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.69 0.2 42);
-  --primary-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -79,20 +81,17 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
 }
 
 .dark {
-  --brand-orange: #FA5D19;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.74 0.18 44);
-  --primary-foreground: oklch(0.16 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
@@ -127,129 +126,5 @@
   }
   html {
     @apply font-sans;
-  }
-}
-
-@layer utilities {
-  .surface-panel {
-    @apply rounded-2xl border border-border/70 bg-card/75 shadow-xs backdrop-blur-sm;
-  }
-
-  .section-pad {
-    @apply px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-20;
-  }
-
-  .section-pad-hero {
-    @apply flex min-h-[calc(100svh-4rem)] items-center px-4 pt-12 pb-14 sm:min-h-[calc(100svh-4.5rem)] sm:px-6 sm:pt-14 sm:pb-16 lg:px-8 lg:pt-18 lg:pb-22;
-  }
-
-  .stack-hero {
-    @apply gap-7 sm:gap-7 md:gap-8 lg:gap-9;
-  }
-
-  .hero-badge {
-    --hero-badge-border: color-mix(in oklab, var(--brand-orange) 38%, transparent);
-    --hero-badge-bg: color-mix(in oklab, var(--brand-orange) 14%, transparent);
-    --hero-badge-text: color-mix(in oklab, var(--foreground) 75%, var(--brand-orange) 25%);
-    position: relative;
-    border-radius: 9999px;
-    border: 1px solid var(--hero-badge-border);
-    background: linear-gradient(120deg, var(--hero-badge-bg), transparent 70%);
-    color: var(--hero-badge-text);
-    text-align: center;
-    box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--brand-orange) 12%, transparent),
-      0 10px 24px -20px color-mix(in oklab, var(--brand-orange) 45%, transparent);
-  }
-
-  .hero-badge::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: inherit;
-    border: 1px solid color-mix(in oklab, var(--brand-orange) 18%, transparent);
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
-  .dark .hero-badge {
-    --hero-badge-border: color-mix(in oklab, var(--brand-orange) 46%, transparent);
-    --hero-badge-bg: color-mix(in oklab, var(--brand-orange) 20%, transparent);
-    --hero-badge-text: color-mix(in oklab, var(--foreground) 70%, var(--brand-orange) 30%);
-    box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--brand-orange) 18%, transparent),
-      0 12px 28px -22px color-mix(in oklab, var(--brand-orange) 55%, transparent);
-  }
-
-  .page-ambient {
-    background-image:
-      radial-gradient(
-        48% 36% at 14% 6%,
-        oklch(0.69 0.2 42 / 0.28) 0%,
-        transparent 70%
-      ),
-      radial-gradient(
-        46% 38% at 86% 4%,
-        oklch(0.69 0.2 42 / 0.22) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        55% 44% at 32% 52%,
-        oklch(0.69 0.2 42 / 0.18) 0%,
-        transparent 74%
-      ),
-      radial-gradient(
-        58% 48% at 72% 58%,
-        oklch(0.69 0.2 42 / 0.14) 0%,
-        transparent 78%
-      ),
-      radial-gradient(
-        60% 50% at 50% -14%,
-        oklch(0.69 0.2 42 / 0.2) 0%,
-        transparent 76%
-      );
-    filter: saturate(104%) blur(0.4px);
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgb(0 0 0 / 1) 0%,
-      rgb(0 0 0 / 1) 52%,
-      rgb(0 0 0 / 0) 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      rgb(0 0 0 / 1) 0%,
-      rgb(0 0 0 / 1) 52%,
-      rgb(0 0 0 / 0) 100%
-    );
-  }
-
-  .dark .page-ambient {
-    background-image:
-      radial-gradient(
-        48% 36% at 14% 6%,
-        oklch(0.74 0.18 44 / 0.38) 0%,
-        transparent 70%
-      ),
-      radial-gradient(
-        46% 38% at 86% 4%,
-        oklch(0.74 0.18 44 / 0.3) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        55% 44% at 32% 52%,
-        oklch(0.74 0.18 44 / 0.24) 0%,
-        transparent 74%
-      ),
-      radial-gradient(
-        58% 48% at 72% 58%,
-        oklch(0.74 0.18 44 / 0.18) 0%,
-        transparent 78%
-      ),
-      radial-gradient(
-        60% 50% at 50% -14%,
-        oklch(0.74 0.18 44 / 0.26) 0%,
-        transparent 76%
-      );
-    filter: saturate(110%) blur(0.4px);
   }
 }

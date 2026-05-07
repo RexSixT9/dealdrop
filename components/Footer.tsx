@@ -6,7 +6,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border/40 bg-background">
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-2 px-4 py-4 text-center sm:gap-1.5 sm:px-6 sm:py-5 lg:px-8 lg:py-6">
+      <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-3 px-4 py-5 text-center sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-6 sm:text-left lg:px-8">
         <div className="flex h-8 items-center justify-center sm:h-9 lg:h-10">
           <Image
             className="hidden h-8 w-auto dark:block sm:h-9 lg:h-10"
@@ -23,7 +23,7 @@ export default function Footer() {
             height={120}
           />
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-1.5 text-center text-xs leading-5 text-muted-foreground/90 sm:text-sm sm:leading-6">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 text-center text-xs leading-5 text-muted-foreground/90 sm:justify-end sm:text-sm sm:leading-6">
           <span>© {year} DealDrop</span>
           <span className="text-muted-foreground/80">•</span>
           <Link

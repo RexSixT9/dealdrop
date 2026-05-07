@@ -17,8 +17,8 @@ export default function ProductGrid({ products }: { products: TrackedProduct[] }
   };
 
   return (
-    <div className="space-y-6">
-      <div className="grid items-start gap-5 sm:gap-6 md:grid-cols-2">
+    <div className="space-y-8 sm:space-y-10">
+      <div className="grid items-start gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {visibleProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
