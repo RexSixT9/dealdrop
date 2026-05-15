@@ -16,7 +16,7 @@ const sora = Sora({
   subsets: ["latin"],
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://dealdropss.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
