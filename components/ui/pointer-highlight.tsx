@@ -33,13 +33,15 @@ export function PointerHighlight({
       }
     });
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
+    const node = containerRef.current;
+
+    if (node) {
+      resizeObserver.observe(node);
     }
 
     return () => {
-      if (containerRef.current) {
-        resizeObserver.unobserve(containerRef.current);
+      if (node) {
+        resizeObserver.unobserve(node);
       }
     };
   }, []);
