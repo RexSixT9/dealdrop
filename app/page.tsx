@@ -1,287 +1,189 @@
-"use client";
-
 import { ModeToggle } from "@/components/mode-toggle";
 import Image from "next/image";
-import { FEATURES } from "@/constants/data";
 import AddProductForm from "@/components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+
+const HIGHLIGHTS = [
+  {
+    title: "Instant price alerts",
+    copy: "Get notified as soon as a price crosses your target.",
+  },
+  {
+    title: "Clean price history",
+    copy: "Understand the last 90 days before you buy.",
+  },
+  {
+    title: "Retailer coverage",
+    copy: "Track products across major stores with one link.",
+  },
+];
+
+const STEPS = [
+  {
+    step: "01",
+    title: "Paste a product link",
+    copy: "Drop any store URL and set the price you want.",
+  },
+  {
+    step: "02",
+    title: "DealDrop watches",
+    copy: "We scan pricing signals throughout the day.",
+  },
+  {
+    step: "03",
+    title: "You get the ping",
+    copy: "Receive an email the moment it dips.",
+  },
+];
 
 export default function Home() {
   const user = null;
 
   return (
-    <main className="min-h-screen bg-linear-to-br from-orange-50 via-white to-orange-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
-      <header className="sticky top-0 z-10 border-b border-gray-200/80 bg-white/80 backdrop-blur-sm dark:border-zinc-700/80 dark:bg-zinc-900/80">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <Image
-              loading="eager"
-              className="hidden h-9 w-auto dark:block sm:h-10"
-              src="/logo-navbar-dark.svg"
-              alt="DealDrop logo"
-              width={600}
-              height={600}
-            />
-            <Image
-              loading="eager"
-              className="block h-9 w-auto dark:hidden sm:h-10"
-              src="/logo-navbar-light.svg"
-              alt="DealDrop logo"
-              width={600}
-              height={600}
-            />
-          </div>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <ModeToggle />
-            <AuthButton user={user} />
-          </div>
-        </div>
-      </header>
+    <main className="min-h-screen bg-background text-foreground">
+      <div className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
 
-      <section className="relative overflow-hidden px-4 pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-28 lg:pt-28">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-1/2 top-10 h-64 w-64 -translate-x-1/2 rounded-full bg-orange-400/20 blur-3xl dark:bg-orange-500/10" />
-          <div className="absolute -right-10 top-32 h-56 w-56 rounded-full bg-amber-300/30 blur-3xl dark:bg-amber-400/10" />
-        </div>
-        <div className="relative mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row lg:items-center lg:gap-16">
-          <div className="flex-1">
-            <div className="inline-flex items-center gap-2 rounded-full bg-orange-500/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-orange-700 dark:text-orange-200">
-              <Sparkles className="h-4 w-4" />
-              Smart price tracking
+        <header className="border-b border-border/60 bg-background/80">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3">
+              <Image
+                loading="eager"
+                className="hidden h-9 w-auto dark:block sm:h-10"
+                src="/logo-navbar-dark.svg"
+                alt="DealDrop logo"
+                width={600}
+                height={600}
+              />
+              <Image
+                loading="eager"
+                className="block h-9 w-auto dark:hidden sm:h-10"
+                src="/logo-navbar-light.svg"
+                alt="DealDrop logo"
+                width={600}
+                height={600}
+              />
             </div>
-            <h1 className="font-heading mt-5 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Catch price drops the moment they happen.
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <ModeToggle />
+              <AuthButton user={user} />
+            </div>
+          </div>
+        </header>
+
+        <section className="flex min-h-[calc(100svh-64px)] items-center px-4 pb-12 pt-14 sm:min-h-[calc(100svh-72px)] sm:px-6 sm:pb-16 sm:pt-20 lg:px-8">
+          <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 text-center sm:gap-7">
+            <div className="inline-flex items-center rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+              Minimal price tracking
+            </div>
+            <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              Track price drops without the noise.
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              DealDrop monitors your favorite products and sends instant alerts when prices dip. Track multiple retailers, set target prices, and stay ahead of every promotion.
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
+              DealDrop watches the products you care about and emails you the moment your target price hits.
             </p>
-            <div className="mt-8">
+            <div className="w-full">
               <AddProductForm isAuthenticated={Boolean(user)} />
             </div>
-            <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">Price history insights</span>
-              <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">Instant drop alerts</span>
-              <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">Works on any device</span>
-            </div>
-          </div>
-
-          <div className="flex-1">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {[
-                {
-                  title: "Tracked deals",
-                  value: "24k+",
-                  caption: "Active watchers this week",
-                },
-                {
-                  title: "Average savings",
-                  value: "$82",
-                  caption: "Per shopper per month",
-                },
-                {
-                  title: "Fastest alert",
-                  value: "42 sec",
-                  caption: "From drop to notification",
-                },
-                {
-                  title: "Retail coverage",
-                  value: "350+",
-                  caption: "Stores supported today",
-                },
-              ].map((stat) => (
-                <div
-                  key={stat.title}
-                  className="rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm"
-                >
-                  <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                  <p className="mt-2 text-3xl font-semibold text-foreground">{stat.value}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{stat.caption}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 rounded-2xl border border-border/70 bg-linear-to-br from-white/80 via-orange-50/70 to-orange-100/60 p-6 text-sm text-muted-foreground shadow-sm dark:from-zinc-900/80 dark:via-zinc-900/40 dark:to-orange-500/10">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-foreground">DealDrop intel</span>
-                <ArrowUpRight className="h-4 w-4 text-orange-500" />
-              </div>
-              <p className="mt-2">
-                Our detection engine checks price signals every few minutes and
-                adapts to store changes automatically.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-12 sm:py-16">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 rounded-3xl border border-border/70 bg-card/80 px-6 py-6 text-sm text-muted-foreground shadow-sm sm:px-10">
-          <div className="max-w-md">
-            <p className="text-xs font-semibold uppercase tracking-wide text-orange-600 dark:text-orange-300">
-              Trusted by deal hunters
-            </p>
-            <p className="mt-2 text-base text-foreground">
-              From gadgets to groceries, DealDrop keeps thousands of watchers ahead of the next promotion.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {["Electronics", "Fashion", "Home", "Beauty", "Outdoors"].map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-border/70 bg-background/70 px-4 py-1 text-xs font-medium"
-              >
-                {tag}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 text-xs text-muted-foreground sm:gap-3 sm:text-sm">
+              <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">
+                No app install
               </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl">
-          <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-wide text-orange-600 dark:text-orange-300">
-              Features
-            </p>
-            <h2 className="font-heading mt-2 text-3xl font-semibold text-foreground sm:text-4xl">
-              Built for fast-moving deals.
-            </h2>
-            <p className="mt-3 text-base text-muted-foreground">
-              Stay calm while DealDrop does the checking, matching, and alerting for you.
-            </p>
-          </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {FEATURES.map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-2xl border border-border/70 bg-card/80 p-6 shadow-sm"
+              <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">
+                Email alerts
+              </span>
+              <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">
+                Price history
+              </span>
+              <a
+                href="#how"
+                className="inline-flex items-center gap-1 text-foreground/70 transition-colors hover:text-foreground"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/15 text-orange-600 dark:text-orange-300">
-                  <feature.icon className="h-5 w-5" />
-                </div>
-                <h3 className="mt-4 text-lg font-semibold text-foreground">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {feature.description}
-                </p>
-              </div>
-            ))}
+                See the flow
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-4 py-16 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-orange-600 dark:text-orange-300">
-              How it works
-            </p>
-            <h2 className="font-heading mt-2 text-3xl font-semibold text-foreground sm:text-4xl">
-              A clear path to every deal.
-            </h2>
-            <p className="mt-3 text-base text-muted-foreground">
-              Set a target price, keep tabs across retailers, and let DealDrop alert you when it is time to buy.
-            </p>
-          </div>
-          <div className="grid gap-4">
-            {[
-              {
-                step: "01",
-                title: "Add any product link",
-                copy: "Drop in a URL from a store and pick the price you want.",
-              },
-              {
-                step: "02",
-                title: "We watch for drops",
-                copy: "DealDrop scans pricing patterns every few minutes.",
-              },
-              {
-                step: "03",
-                title: "Get instant alerts",
-                copy: "Receive email notifications the second the price dips.",
-              },
-            ].map((item) => (
-              <div
-                key={item.step}
-                className="flex items-start gap-4 rounded-2xl border border-border/70 bg-card/80 p-5 shadow-sm"
-              >
-                <span className="text-sm font-semibold text-orange-600 dark:text-orange-300">
-                  {item.step}
-                </span>
-                <div>
-                  <h3 className="text-base font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {item.copy}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-16 sm:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 rounded-3xl border border-border/70 bg-card/80 px-6 py-10 shadow-sm sm:px-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-orange-600 dark:text-orange-300">
-              Price intelligence
-            </p>
-            <h2 className="font-heading mt-2 text-3xl font-semibold text-foreground sm:text-4xl">
-              Understand the drop before it lands.
-            </h2>
-            <p className="mt-3 text-base text-muted-foreground">
-              See where prices have been, where they are trending, and when your alert is about to trigger.
-            </p>
-          </div>
-          <div className="grid gap-4">
-            {[
-              {
-                title: "Historical trendlines",
-                copy: "See the last 90 days of price movements to spot patterns.",
-              },
-              {
-                title: "Alert forecasting",
-                copy: "We predict the best alert windows based on store behavior.",
-              },
-              {
-                title: "Smart retailer match",
-                copy: "DealDrop aligns identical listings across multiple stores.",
-              },
-            ].map((item) => (
+        <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+          <div className="mx-auto grid w-full max-w-5xl gap-4 sm:gap-5 md:grid-cols-3">
+            {HIGHLIGHTS.map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-border/70 bg-background/70 p-5"
+                className="flex h-full flex-col items-center gap-2 rounded-2xl border border-border/60 bg-card/70 p-5 text-center sm:p-6"
               >
                 <h3 className="text-base font-semibold text-foreground">
                   {item.title}
                 </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                   {item.copy}
                 </p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-4 pb-16 sm:pb-20">
-        <div className="mx-auto flex max-w-7xl flex-col items-start gap-8 rounded-3xl border border-border/70 bg-linear-to-br from-orange-100/80 via-white to-orange-50/70 px-6 py-10 shadow-sm dark:from-orange-500/10 dark:via-zinc-900/70 dark:to-zinc-900/40 sm:px-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-xl">
-            <h2 className="font-heading text-3xl font-semibold text-foreground sm:text-4xl">
-              Ready to track your next deal?
-            </h2>
-            <p className="mt-3 text-base text-muted-foreground">
-              Add your first product and let DealDrop watch the price for you.
-            </p>
+        <section id="how" className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+          <div className="mx-auto grid w-full max-w-5xl gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center">
+            <div className="text-center">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+                How it works
+              </p>
+              <h2 className="font-heading mt-2 text-2xl font-semibold text-foreground sm:text-3xl">
+                Three steps. One alert.
+              </h2>
+              <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                Set it once and stay ready for the next drop.
+              </p>
+            </div>
+            <ol className="grid gap-4 text-center sm:gap-5">
+              {STEPS.map((item) => (
+                <li
+                  key={item.step}
+                  className="flex flex-col items-center rounded-2xl border border-border/60 bg-card/70 p-5 sm:p-6"
+                >
+                  <p className="text-[11px] font-semibold text-orange-600 dark:text-orange-300 sm:text-xs">
+                    {item.step}
+                  </p>
+                  <h3 className="mt-2 text-base font-semibold text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {item.copy}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
-          <div className="w-full max-w-xl">
-            <AddProductForm isAuthenticated={Boolean(user)} />
+        </section>
+
+        <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
+          <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 rounded-3xl border border-border/70 bg-card/80 px-6 py-8 text-center sm:gap-6 sm:px-10 sm:py-10">
+            <div className="max-w-xl">
+              <h2 className="font-heading text-xl font-semibold text-foreground sm:text-3xl">
+                Ready when you are.
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                Start with one link and keep your watchlist calm and focused.
+              </p>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:gap-3 sm:text-xs">
+              <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
+                Free to start
+              </span>
+              <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
+                Cancel anytime
+              </span>
+              <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
+                No credit card
+              </span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }
