@@ -20,7 +20,7 @@ export default function AuthButton({ user }: AuthButtonProps) {
           variant="outline"
           size="default"
           type="submit"
-          className="gap-2 rounded-xl px-3 text-sm sm:px-4 sm:text-base"
+          className="h-9 gap-2 rounded-full border-border/70 bg-card/70 px-3.5 text-sm text-foreground hover:bg-card/90 max-[360px]:px-3 max-[360px]:text-xs sm:h-10 sm:px-4 sm:text-base"
         >
           <LogOut className="w-4 h-4" />
           Sign Out
@@ -33,9 +33,9 @@ export default function AuthButton({ user }: AuthButtonProps) {
     <>
       <Button
         onClick={() => setShowAuthModal(true)}
-        variant="default"
+        variant="outline"
         size="default"
-        className="gap-2 rounded-xl bg-primary px-3 text-sm text-primary-foreground hover:bg-primary/90 sm:px-4 sm:text-base"
+        className="h-9 gap-2 rounded-full border-primary/30 bg-primary/10 px-3.5 text-sm text-primary hover:bg-primary/15 max-[360px]:px-3 max-[360px]:text-xs sm:h-10 sm:px-4 sm:text-base"
       >
         <LogIn className="w-4 h-4" />
         Sign In

@@ -50,12 +50,12 @@ export default function Home() {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
 
-        <header className="border-b border-border/60 bg-background/80">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3">
+        <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
+          <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
+            <div className="flex min-w-0 items-center gap-3">
               <Image
                 loading="eager"
-                className="hidden h-9 w-auto dark:block sm:h-10"
+                className="hidden h-8 w-auto dark:block sm:h-10"
                 src="/logo-navbar-dark.svg"
                 alt="DealDrop logo"
                 width={600}
@@ -63,18 +63,18 @@ export default function Home() {
               />
               <Image
                 loading="eager"
-                className="block h-9 w-auto dark:hidden sm:h-10"
+                className="block h-8 w-auto dark:hidden sm:h-10"
                 src="/logo-navbar-light.svg"
                 alt="DealDrop logo"
                 width={600}
                 height={600}
               />
             </div>
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="flex shrink-0 items-center gap-2 max-[360px]:gap-1.5 sm:gap-3">
               <ModeToggle />
               <AuthButton user={user} />
             </div>
-          </div>
+          </nav>
         </header>
 
         <section className="flex min-h-[calc(100svh-64px)] items-center px-4 pb-12 pt-14 sm:min-h-[calc(100svh-72px)] sm:px-6 sm:pb-16 sm:pt-20 lg:px-8">
@@ -95,7 +95,8 @@ export default function Home() {
               without the noise.
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
-              DealDrop watches the products you care about and emails you the moment your target price hits.
+              DealDrop watches the products you care about and emails you the
+              moment your target price hits.
             </p>
             <div className="w-full">
               <AddProductForm isAuthenticated={Boolean(user)} />
@@ -134,9 +135,7 @@ export default function Home() {
                 <h3 className="text-base font-semibold text-foreground">
                   {item.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  {item.copy}
-                </p>
+                <p className="text-sm text-muted-foreground">{item.copy}</p>
               </div>
             ))}
           </div>
