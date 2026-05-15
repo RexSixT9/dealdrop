@@ -2,20 +2,23 @@ import { ModeToggle } from "@/components/mode-toggle";
 import Image from "next/image";
 import AddProductForm from "@/components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Bell, LineChart, Sparkles, Store } from "lucide-react";
 
 const HIGHLIGHTS = [
   {
     title: "Instant price alerts",
     copy: "Get notified as soon as a price crosses your target.",
+    icon: Bell,
   },
   {
     title: "Clean price history",
     copy: "Understand the last 90 days before you buy.",
+    icon: LineChart,
   },
   {
     title: "Retailer coverage",
     copy: "Track products across major stores with one link.",
+    icon: Store,
   },
 ];
 
@@ -75,7 +78,8 @@ export default function Home() {
 
         <section className="flex min-h-[calc(100svh-64px)] items-center px-4 pb-12 pt-14 sm:min-h-[calc(100svh-72px)] sm:px-6 sm:pb-16 sm:pt-20 lg:px-8">
           <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 text-center sm:gap-7">
-            <div className="inline-flex items-center rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+            <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+              <Sparkles className="h-3.5 w-3.5" />
               Minimal price tracking
             </div>
             <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
@@ -115,6 +119,9 @@ export default function Home() {
                 key={item.title}
                 className="flex h-full flex-col items-center gap-2 rounded-2xl border border-border/60 bg-card/70 p-5 text-center sm:p-6"
               >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-background/80 text-foreground/80">
+                  <item.icon className="h-5 w-5" />
+                </div>
                 <h3 className="text-base font-semibold text-foreground">
                   {item.title}
                 </h3>
