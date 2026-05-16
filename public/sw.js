@@ -1,4 +1,4 @@
-const CACHE_VERSION = "v3";
+const CACHE_VERSION = "v4";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 const OFFLINE_URL = "/offline";
@@ -17,6 +17,16 @@ const STATIC_ASSETS = [
 const cachePut = async (request, response) => {
   const cache = await caches.open(RUNTIME_CACHE);
   await cache.put(request, response);
+};
+
+const cacheFirst = async (request) => {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+
+  const response = await fetch(request);
+  const copy = response.clone();
+  cachePut(request, copy);
+  return response;
 };
 
 const cacheFallback = async (request, fallbackUrl) => {
@@ -83,6 +93,11 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       networkFirst(event.request, OFFLINE_URL),
     );
+    return;
+  }
+
+  if (url.pathname.startsWith("/_next/static/")) {
+    event.respondWith(cacheFirst(event.request));
     return;
   }
 
