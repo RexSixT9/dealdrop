@@ -54,7 +54,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             Sign in to continue
           </DialogTitle>
           <DialogDescription>
-            Track product prices and get alerts on price drops
+            Track prices and get alerts when they drop
           </DialogDescription>
         </DialogHeader>
 
