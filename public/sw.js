@@ -8,8 +8,12 @@ const STATIC_ASSETS = [
   "/favicon-512.png",
   "/favicon-32.png",
   "/favicon-180.png",
+  "/favicon.ico",
   "/favicon-light.svg",
   "/favicon-dark.svg",
+  "/logo-navbar-dark.svg",
+  "/logo-navbar-light.svg",
+  "/logo-footer-muted.svg",
   "/manifest.webmanifest",
   OFFLINE_URL,
 ];
@@ -104,7 +108,16 @@ self.addEventListener("fetch", (event) => {
 
   if (event.request.mode === "navigate") {
     event.respondWith(
-      networkFirst(event.request, OFFLINE_URL),
+      networkFirst(event.request, OFFLINE_URL).then((response) => {
+        if (response) return response;
+        return caches.match(OFFLINE_URL).then((fallback) => {
+          if (fallback) return fallback;
+          return new Response(
+            "<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Offline</title></head><body><main style=\"font-family:system-ui,Segoe UI,sans-serif;padding:24px\"><h1>You are offline.</h1><p>Please reconnect and try again.</p></main></body></html>",
+            { headers: { "Content-Type": "text/html" } },
+          );
+        });
+      }),
     );
     return;
   }
@@ -120,12 +133,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (event.request.destination === "image") {
-    event.respondWith(
-      caches.match(event.request).then((cached) => {
-        if (cached) return cached;
-        return networkFirst(event.request);
-      }),
-    );
+    event.respondWith(cacheFirst(event.request));
     return;
   }
 
