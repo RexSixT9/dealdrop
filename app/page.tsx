@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { ModeToggle } from "@/components/mode-toggle";
 import Image from "next/image";
 import AddProductForm from "@/components/AddProductForm";
@@ -6,11 +7,67 @@ import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { HIGHLIGHTS, STEPS } from "@/constants/data";
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
+
+export const metadata: Metadata = {
+  title: "Track price drops before they sell out",
+  description:
+    "DealDrop tracks product prices, sends instant email alerts, and helps shoppers catch discounts before they disappear.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: siteUrl,
+    title: "DealDrop - Smart Price Tracker",
+    description:
+      "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+    images: [
+      {
+        url: `${siteUrl}/favicon-512.png`,
+        width: 512,
+        height: 512,
+        alt: "DealDrop",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DealDrop - Smart Price Tracker",
+    description:
+      "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+    images: [`${siteUrl}/favicon-512.png`],
+  },
+};
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "DealDrop",
+    url: siteUrl,
+    logo: `${siteUrl}/favicon-512.png`,
+    sameAs: [],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "DealDrop",
+    url: siteUrl,
+    description:
+      "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+  },
+];
+
 export default function Home() {
   const user = null;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
