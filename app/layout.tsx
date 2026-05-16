@@ -3,6 +3,7 @@ import { Geist, Sora } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 import PwaProvider from "@/components/PwaProvider";
+import OfflineBanner from "@/components/OfflineBanner";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -125,6 +126,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <PwaProvider />
+          <OfflineBanner />
           {children}
           <Footer />
           <Toaster

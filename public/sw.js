@@ -1,6 +1,7 @@
-const CACHE_VERSION = "v2";
+const CACHE_VERSION = "v3";
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
+const OFFLINE_URL = "/offline";
 
 const STATIC_ASSETS = [
   "/favicon-192.png",
@@ -10,6 +11,7 @@ const STATIC_ASSETS = [
   "/favicon-light.svg",
   "/favicon-dark.svg",
   "/manifest.webmanifest",
+  OFFLINE_URL,
 ];
 
 const cachePut = async (request, response) => {
@@ -17,9 +19,14 @@ const cachePut = async (request, response) => {
   await cache.put(request, response);
 };
 
-const cacheFallback = async (request) => {
+const cacheFallback = async (request, fallbackUrl) => {
   const cached = await caches.match(request);
   if (cached) return cached;
+
+  if (fallbackUrl) {
+    const fallback = await caches.match(fallbackUrl);
+    if (fallback) return fallback;
+  }
 
   return new Response("Network error", {
     status: 504,
@@ -27,7 +34,7 @@ const cacheFallback = async (request) => {
   });
 };
 
-const networkFirst = async (request) => {
+const networkFirst = async (request, fallbackUrl) => {
   try {
     const response = await fetch(request);
     const copy = response.clone();
@@ -35,7 +42,7 @@ const networkFirst = async (request) => {
     return response;
   } catch (error) {
     console.error("Fetch failed; returning cached page instead.", error);
-    return cacheFallback(request);
+    return cacheFallback(request, fallbackUrl);
   }
 };
 
@@ -74,7 +81,7 @@ self.addEventListener("fetch", (event) => {
 
   if (event.request.mode === "navigate") {
     event.respondWith(
-      networkFirst(event.request),
+      networkFirst(event.request, OFFLINE_URL),
     );
     return;
   }
