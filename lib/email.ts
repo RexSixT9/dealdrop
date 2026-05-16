@@ -39,7 +39,7 @@ export async function sendPriceDropAlert(
     const { data, error } = await resend.emails.send({
       from: `DealDrop <${fromEmail}>`,
       to: userEmail,
-      subject: `🎉 Price Drop Alert: ${product.name}`,
+      subject: `Price Drop Alert: ${product.name}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -108,7 +108,7 @@ export async function sendPriceDropAlert(
               </div>
               
               <div style="border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 20px; text-align: center; color: #6b7280; font-size: 12px;">
-                <p>You're receiving this email because you're tracking this product on Price Tracker.</p>
+                <p>You're receiving this email because you're tracking this product on DealDrop.</p>
                 <p style="margin-top: 10px;">
                   <a href="${
                     appUrl
