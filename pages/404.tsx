@@ -1,12 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, SearchX } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
-import AuthButton from "@/components/AuthButton";
 
 export default function Custom404() {
-  const user = null;
-
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="relative overflow-hidden">
@@ -34,8 +30,12 @@ export default function Custom404() {
               />
             </div>
             <div className="flex shrink-0 items-center gap-2 max-[360px]:gap-1.5 sm:gap-3">
-              <ModeToggle />
-              <AuthButton user={user} />
+              <Link
+                href="/"
+                className="h-9 rounded-full border border-primary/30 bg-primary/10 px-3.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/15 max-[360px]:px-3 max-[360px]:text-xs sm:h-10 sm:px-4 sm:text-base"
+              >
+                Go home
+              </Link>
             </div>
           </nav>
         </header>
