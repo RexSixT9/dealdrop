@@ -23,10 +23,15 @@ const cacheFirst = async (request) => {
   const cached = await caches.match(request);
   if (cached) return cached;
 
-  const response = await fetch(request);
-  const copy = response.clone();
-  cachePut(request, copy);
-  return response;
+  try {
+    const response = await fetch(request);
+    const copy = response.clone();
+    cachePut(request, copy);
+    return response;
+  } catch (error) {
+    console.error("Cache-first fetch failed; returning cached asset.", error);
+    return cacheFallback(request);
+  }
 };
 
 const cacheFallback = async (request, fallbackUrl) => {
@@ -102,9 +107,7 @@ self.addEventListener("fetch", (event) => {
   }
 
   if (STATIC_ASSETS.includes(url.pathname)) {
-    event.respondWith(
-      caches.match(event.request).then((cached) => cached || fetch(event.request)),
-    );
+    event.respondWith(cacheFirst(event.request));
     return;
   }
 
