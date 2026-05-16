@@ -8,17 +8,17 @@ import { ArrowUpRight, Bell, LineChart, Sparkles, Store } from "lucide-react";
 const HIGHLIGHTS = [
   {
     title: "Instant price alerts",
-    copy: "Get notified as soon as a price crosses your target.",
+    copy: "Get an email the moment a price hits your target.",
     icon: Bell,
   },
   {
-    title: "Clean price history",
-    copy: "Understand the last 90 days before you buy.",
+    title: "Clear price history",
+    copy: "See the last 90 days at a glance before you buy.",
     icon: LineChart,
   },
   {
-    title: "Retailer coverage",
-    copy: "Track products across major stores with one link.",
+    title: "Store coverage",
+    copy: "Track items across major retailers with one link.",
     icon: Store,
   },
 ];
@@ -27,16 +27,16 @@ const STEPS = [
   {
     step: "01",
     title: "Paste a product link",
-    copy: "Drop any store URL and set the price you want.",
+    copy: "Drop any store URL and set your target price.",
   },
   {
     step: "02",
-    title: "DealDrop watches",
-    copy: "We scan pricing signals throughout the day.",
+    title: "DealDrop tracks",
+    copy: "We check for updates throughout the day.",
   },
   {
     step: "03",
-    title: "You get the ping",
+    title: "You get the alert",
     copy: "Receive an email the moment it dips.",
   },
 ];
@@ -81,7 +81,7 @@ export default function Home() {
           <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 text-center sm:gap-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
               <Sparkles className="h-3.5 w-3.5" />
-              Minimal price tracking
+              Smart price tracking
             </div>
             <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               Track{" "}
@@ -95,8 +95,8 @@ export default function Home() {
               without the noise.
             </h1>
             <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
-              DealDrop watches the products you care about and emails you the
-              moment your target price hits.
+              DealDrop monitors the products you care about and emails you when
+              they reach your target price.
             </p>
             <div className="w-full">
               <AddProductForm isAuthenticated={Boolean(user)} />
@@ -115,7 +115,7 @@ export default function Home() {
                 href="#how"
                 className="inline-flex items-center gap-1 text-foreground/70 transition-colors hover:text-foreground"
               >
-                See the flow
+                See how it works
                 <ArrowUpRight className="h-4 w-4" />
               </a>
             </div>
@@ -182,7 +182,7 @@ export default function Home() {
                 Ready when you are.
               </h2>
               <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-                Start with one link and keep your watchlist calm and focused.
+                Start with one link and keep your watchlist focused.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:gap-3 sm:text-xs">

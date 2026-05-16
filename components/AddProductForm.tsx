@@ -59,7 +59,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
           <Input
             type="url"
-            placeholder="Enter product URL"
+            placeholder="Paste a product URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required
@@ -77,7 +77,7 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
                 Tracking...
               </>
             ) : (
-              "Track Price"
+              "Start Tracking"
             )}
           </Button>
         </div>
