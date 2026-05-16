@@ -35,3 +35,21 @@ export const STEPS = [
     copy: "Receive an email the moment it dips.",
   },
 ];
+
+export const FAQS = [
+  {
+    question: "Do I need to install an app?",
+    answer:
+      "No. DealDrop works in the browser and sends alerts by email, so you can start tracking from any device.",
+  },
+  {
+    question: "How often are prices checked?",
+    answer:
+      "We check tracked products on a regular schedule throughout the day so you get notified when prices change.",
+  },
+  {
+    question: "Can I stop tracking anytime?",
+    answer:
+      "Yes. You can adjust your watchlist whenever you want and keep only the products you still care about.",
+  },
+];

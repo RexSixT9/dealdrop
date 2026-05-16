@@ -5,7 +5,7 @@ import AddProductForm from "@/components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { ArrowUpRight, Sparkles } from "lucide-react";
-import { HIGHLIGHTS, STEPS } from "@/constants/data";
+import { FAQS, HIGHLIGHTS, STEPS } from "@/constants/data";
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
 
@@ -24,10 +24,10 @@ export const metadata: Metadata = {
       "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
     images: [
       {
-        url: `${siteUrl}/favicon-512.png`,
-        width: 512,
-        height: 512,
-        alt: "DealDrop",
+        url: `${siteUrl}/opengraph-image`,
+        width: 1200,
+        height: 630,
+        alt: "DealDrop - Smart Price Tracker",
       },
     ],
   },
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: "DealDrop - Smart Price Tracker",
     description:
       "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
-    images: [`${siteUrl}/favicon-512.png`],
+    images: [`${siteUrl}/opengraph-image`],
   },
 };
 
@@ -56,6 +56,18 @@ const structuredData = [
     url: siteUrl,
     description:
       "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
   },
 ];
 
@@ -217,6 +229,37 @@ export default function Home() {
               <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
                 No credit card
               </span>
+            </div>
+          </div>
+        </section>
+
+        <section className="px-4 pb-20 sm:px-6 sm:pb-24 lg:px-8">
+          <div className="mx-auto w-full max-w-5xl">
+            <div className="mb-6 text-center sm:mb-8">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+                FAQ
+              </p>
+              <h2 className="font-heading mt-2 text-2xl font-semibold text-foreground sm:text-3xl">
+                Common questions
+              </h2>
+              <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                Quick answers for shoppers who want to track prices with less friction.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {FAQS.map((item) => (
+                <article
+                  key={item.question}
+                  className="rounded-2xl border border-border/60 bg-card/70 p-5 text-left sm:p-6"
+                >
+                  <h3 className="text-base font-semibold text-foreground">
+                    {item.question}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {item.answer}
+                  </p>
+                </article>
+              ))}
             </div>
           </div>
         </section>
