@@ -1,21 +1,37 @@
-import { Rabbit, Shield, Bell } from "lucide-react";
+import { Bell, LineChart, Store } from "lucide-react";
 
-export const FEATURES = [
+export const HIGHLIGHTS = [
   {
-    icon: Rabbit,
-    title: "Fast Price Scans",
-    description:
-      "We scan product pages quickly and keep your latest price up to date.",
-  },
-  {
-    icon: Shield,
-    title: "Reliable Tracking",
-    description:
-      "Track products across popular stores with stable, repeatable checks.",
-  },
-  {
+    title: "Instant price alerts",
+    copy: "Get an email the moment a price hits your target.",
     icon: Bell,
-    title: "Instant Alerts",
-    description: "Get notified the moment prices drop so you can buy at the best time.",
+  },
+  {
+    title: "Clear price history",
+    copy: "See the last 90 days at a glance before you buy.",
+    icon: LineChart,
+  },
+  {
+    title: "Store coverage",
+    copy: "Track items across major retailers with one link.",
+    icon: Store,
+  },
+];
+
+export const STEPS = [
+  {
+    step: "01",
+    title: "Paste a product link",
+    copy: "Drop any store URL and set your target price.",
+  },
+  {
+    step: "02",
+    title: "DealDrop tracks",
+    copy: "We check for updates throughout the day.",
+  },
+  {
+    step: "03",
+    title: "You get the alert",
+    copy: "Receive an email the moment it dips.",
   },
 ];

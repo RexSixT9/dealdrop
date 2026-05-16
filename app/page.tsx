@@ -3,43 +3,8 @@ import Image from "next/image";
 import AddProductForm from "@/components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import { ArrowUpRight, Bell, LineChart, Sparkles, Store } from "lucide-react";
-
-const HIGHLIGHTS = [
-  {
-    title: "Instant price alerts",
-    copy: "Get an email the moment a price hits your target.",
-    icon: Bell,
-  },
-  {
-    title: "Clear price history",
-    copy: "See the last 90 days at a glance before you buy.",
-    icon: LineChart,
-  },
-  {
-    title: "Store coverage",
-    copy: "Track items across major retailers with one link.",
-    icon: Store,
-  },
-];
-
-const STEPS = [
-  {
-    step: "01",
-    title: "Paste a product link",
-    copy: "Drop any store URL and set your target price.",
-  },
-  {
-    step: "02",
-    title: "DealDrop tracks",
-    copy: "We check for updates throughout the day.",
-  },
-  {
-    step: "03",
-    title: "You get the alert",
-    copy: "Receive an email the moment it dips.",
-  },
-];
+import { ArrowUpRight, Sparkles } from "lucide-react";
+import { HIGHLIGHTS, STEPS } from "@/constants/data";
 
 export default function Home() {
   const user = null;
