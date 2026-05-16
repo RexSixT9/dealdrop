@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-function getSafeRedirectTarget(target: string | null) {
+function getSafeRedirectUrl(target: string | null) {
   if (!target) {
     return null;
   }
@@ -18,7 +18,7 @@ function getSafeRedirectTarget(target: string | null) {
 }
 
 export function GET(request: NextRequest) {
-  const target = getSafeRedirectTarget(request.nextUrl.searchParams.get("u"));
+  const target = getSafeRedirectUrl(request.nextUrl.searchParams.get("u"));
 
   if (!target) {
     return NextResponse.redirect(new URL("/", request.url));
