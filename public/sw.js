@@ -65,7 +65,15 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(STATIC_CACHE)
-      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .then((cache) =>
+        Promise.all(
+          STATIC_ASSETS.map((asset) =>
+            cache.add(asset).catch((error) => {
+              console.warn("Failed to cache asset during install:", asset, error);
+            }),
+          ),
+        ),
+      )
       .then(() => self.skipWaiting()),
   );
 });
