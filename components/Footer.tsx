@@ -10,14 +10,14 @@ export default function Footer() {
         <div className="flex h-8 items-center justify-center sm:h-9 lg:h-10">
           <Image
             className="hidden h-8 w-auto dark:block sm:h-9 lg:h-10"
-            src="/logo-footer-muted.svg"
+            src="/footer-monochrome-white.svg"
             alt="DealDrop logo"
             width={320}
             height={120}
           />
           <Image
             className="block h-8 w-auto dark:hidden sm:h-9 lg:h-10"
-            src="/logo-footer-muted.svg"
+            src="/footer-monochrome-dark.svg"
             alt="DealDrop logo"
             width={320}
             height={120}
