@@ -6,8 +6,16 @@ import AuthButton from "@/components/AuthButton";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { FAQS, HIGHLIGHTS, STEPS } from "@/constants/data";
+import { createClient } from "@/lib/supabase/server";
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
+const DEFAULT_TRACKING_LIMIT = 4;
+
+function getTrackingLimit() {
+  const parsed = Number(process.env.MAX_TRACKED_URLS);
+  if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_TRACKING_LIMIT;
+  return Math.floor(parsed);
+}
 
 export const metadata: Metadata = {
   title: "DealDrop - Price Tracker & Alerts",
@@ -71,8 +79,26 @@ const structuredData = [
   },
 ];
 
-export default function Home() {
-  const user = null;
+export default async function Home() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const limit = getTrackingLimit();
+  let currentCount = 0;
+
+  if (user) {
+    const { count, error } = await supabase
+      .from("products")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Error fetching product count:", error);
+    } else {
+      currentCount = count ?? 0;
+    }
+  }
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -133,7 +159,11 @@ export default function Home() {
               they reach your target price.
             </p>
             <div className="w-full">
-              <AddProductForm isAuthenticated={Boolean(user)} />
+              <AddProductForm
+                isAuthenticated={Boolean(user)}
+                currentCount={currentCount}
+                limit={limit}
+              />
             </div>
             <div className="flex flex-wrap items-center justify-center gap-2.5 text-xs text-muted-foreground sm:gap-3 sm:text-sm">
               <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">
