@@ -226,20 +226,6 @@ export default async function Home() {
                       for you.
                     </p>
                   </div>
-
-                  <div className="rounded-3xl border border-border/70 bg-linear-to-br from-orange-100/80 via-white to-orange-50/70 px-6 py-8 shadow-sm dark:from-orange-500/10 dark:via-zinc-900/70 dark:to-zinc-900/40 sm:px-10 sm:py-10">
-                    <div className="flex flex-col items-start gap-4 lg:flex-row lg:items-center lg:justify-between">
-                      <div className="max-w-xl">
-                        <h2 className="font-heading text-2xl font-semibold text-foreground sm:text-3xl">
-                          Ready to track your next deal?
-                        </h2>
-                        <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-                          Add your first product and let DealDrop watch the price for
-                          you.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
             </div>
