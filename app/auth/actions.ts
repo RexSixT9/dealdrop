@@ -43,26 +43,35 @@ export async function addProduct(formData: FormData) {
       .eq("user_id", user.id)
       .maybeSingle();
 
+    const existingProductData =
+      existingProduct as { id: string; current_price: number | null } | null;
+
     if (existingError) {
       throw existingError;
     }
 
-    if (!existingProduct) {
-      const { count, error: countError } = await supabase
-        .from("products")
-        .select("id", { count: "exact", head: true })
-        .eq("user_id", user.id);
+    if (existingProductData) {
+      return {
+        success: true,
+        message: "You are already tracking this product.",
+        action: "duplicate",
+      };
+    }
 
-      if (countError) {
-        throw countError;
-      }
+    const { count, error: countError } = await supabase
+      .from("products")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id);
 
-      if ((count ?? 0) >= trackingLimit) {
-        return {
-          success: false,
-          message: `Tracking limit reached (${trackingLimit}). Remove a product to add another.`,
-        };
-      }
+    if (countError) {
+      throw countError;
+    }
+
+    if ((count ?? 0) >= trackingLimit) {
+      return {
+        success: false,
+        message: `Tracking limit reached (${trackingLimit}). Remove a product to add another.`,
+      };
     }
 
     const productData = await scrapeProduct(url);
@@ -80,8 +89,6 @@ export async function addProduct(formData: FormData) {
       throw new Error("Failed to parse product price from the provided URL");
     }
     const currency = productData.currencyCode || "USD";
-
-    const isUpdate = !!existingProduct;
 
     const { data: product, error } = await supabase
       .from("products")
@@ -104,26 +111,19 @@ export async function addProduct(formData: FormData) {
       throw error;
     }
 
-    const shouldAddHistory =
-      !isUpdate ||
-      (existingProduct && existingProduct.current_price !== newPrice);
-
-    if (shouldAddHistory) {
-      await supabase.from("price_history").insert({
-        product_id: product.id,
-        price: newPrice,
-        currency: currency,
-      });
-    }
+    await supabase.from("price_history").insert({
+      product_id: product.id,
+      price: newPrice,
+      currency: currency,
+    });
 
     revalidatePath("/");
 
     return {
       success: true,
       product,
-      message: isUpdate
-        ? "Product updated successfully"
-        : "Product added successfully",
+      message: "Product added successfully",
+      action: "added",
     };
   } catch (error) {
     console.error("Error adding product:", error);

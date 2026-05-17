@@ -53,8 +53,18 @@ const AddProductForm = ({
       const result = await addProduct(formData);
 
       if (result.success) {
-        toast.success("Product added successfully!");
-        setUrl("");
+        const action = result.action as string | undefined;
+        const message = result.message || "Product added successfully!";
+
+        if (action === "duplicate") {
+          toast.info(message);
+        } else if (action === "updated") {
+          toast.success(message);
+          setUrl("");
+        } else {
+          toast.success(message);
+          setUrl("");
+        }
       } else {
         toast.error(
           result.message || "Failed to add product. Please try again.",
