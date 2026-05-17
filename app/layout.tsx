@@ -10,11 +10,13 @@ import { Toaster } from "@/components/ui/sonner";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const sora = Sora({
   variable: "--font-sora",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
@@ -110,7 +112,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${sora.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${sora.variable} h-full subpixel-antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://images.weserv.nl" crossOrigin="anonymous" />
