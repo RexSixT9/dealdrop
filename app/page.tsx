@@ -3,6 +3,8 @@ import { ModeToggle } from "@/components/mode-toggle";
 import Image from "next/image";
 import AddProductForm from "@/components/AddProductForm";
 import AuthButton from "@/components/AuthButton";
+import ProductGrid from "@/components/ProductGrid";
+import type { TrackedProduct } from "@/components/ProductCard";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { FAQS, HIGHLIGHTS, STEPS } from "@/constants/data";
@@ -85,20 +87,23 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
   const limit = getTrackingLimit();
-  let currentCount = 0;
+  let products: TrackedProduct[] = [];
 
   if (user) {
-    const { count, error } = await supabase
+    const { data, error } = await supabase
       .from("products")
-      .select("id", { count: "exact", head: true })
-      .eq("user_id", user.id);
+      .select("id, name, url, current_price, currency, image_url")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Error fetching product count:", error);
-    } else {
-      currentCount = count ?? 0;
+      console.error("Error fetching products:", error);
+    } else if (data) {
+      products = data as TrackedProduct[];
     }
   }
+
+  const currentCount = products.length;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -185,6 +190,34 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        {user && (
+          <section className="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-8">
+            <div className="mx-auto w-full max-w-5xl">
+              <div className="mb-6 text-center sm:mb-8">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+                  Your watchlist
+                </p>
+                <h2 className="font-heading mt-2 text-2xl font-semibold text-foreground sm:text-3xl">
+                  Tracked products
+                </h2>
+                <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                  {currentCount > 0
+                    ? "Manage your tracked products and check recent price moves."
+                    : "Add a product URL to start tracking your first price drop."}
+                </p>
+              </div>
+
+              {products.length > 0 ? (
+                <ProductGrid products={products} />
+              ) : (
+                <div className="rounded-2xl border border-border/70 bg-card/70 p-6 text-center text-sm text-muted-foreground">
+                  No tracked products yet.
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
           <div className="mx-auto grid w-full max-w-5xl gap-4 sm:gap-5 md:grid-cols-3">
