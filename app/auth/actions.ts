@@ -5,6 +5,14 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+const DEFAULT_TRACKING_LIMIT = 4;
+
+function getTrackingLimit() {
+  const parsed = Number(process.env.MAX_TRACKED_URLS);
+  if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_TRACKING_LIMIT;
+  return Math.floor(parsed);
+}
+
 export async function SignOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
@@ -26,6 +34,37 @@ export async function addProduct(formData: FormData) {
       throw new Error("User not authenticated");
     }
 
+    const trackingLimit = getTrackingLimit();
+
+    const { data: existingProduct, error: existingError } = await supabase
+      .from("products")
+      .select("id, current_price")
+      .eq("url", url)
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    if (existingError) {
+      throw existingError;
+    }
+
+    if (!existingProduct) {
+      const { count, error: countError } = await supabase
+        .from("products")
+        .select("id", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
+      if (countError) {
+        throw countError;
+      }
+
+      if ((count ?? 0) >= trackingLimit) {
+        return {
+          success: false,
+          message: `Tracking limit reached (${trackingLimit}). Remove a product to add another.`,
+        };
+      }
+    }
+
     const productData = await scrapeProduct(url);
 
     if (
@@ -41,13 +80,6 @@ export async function addProduct(formData: FormData) {
       throw new Error("Failed to parse product price from the provided URL");
     }
     const currency = productData.currencyCode || "USD";
-
-    const { data: existingProduct } = await supabase
-      .from("products")
-      .select("id, current_price")
-      .eq("url", url)
-      .eq("user_id", user.id)
-      .single();
 
     const isUpdate = !!existingProduct;
 

@@ -8,14 +8,32 @@ import { AuthModal } from "./AuthModal";
 import { addProduct } from "@/app/auth/actions";
 import { toast } from "sonner";
 
-const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
+type AddProductFormProps = {
+  isAuthenticated: boolean;
+  currentCount: number;
+  limit: number;
+};
+
+const AddProductForm = ({
+  isAuthenticated,
+  currentCount,
+  limit,
+}: AddProductFormProps) => {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const limitReached = isAuthenticated && currentCount >= limit;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const normalizedUrl = url.trim();
+
+    if (limitReached) {
+      toast.error(
+        `Tracking limit reached (${limit}). Remove a product to add another.`,
+      );
+      return;
+    }
 
     if (!normalizedUrl) {
       toast.error("Please enter a valid product URL.");
@@ -63,15 +81,17 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required
-            disabled={loading}
+            disabled={loading || limitReached}
             className="h-11 rounded-xl border-border/80 bg-card/70 text-sm shadow-xs sm:h-12 sm:flex-1 sm:text-base"
           />
           <Button
             type="submit"
-            disabled={loading || !url.trim()}
+            disabled={loading || !url.trim() || limitReached}
             className="h-11 w-full rounded-xl bg-primary px-5 text-sm text-primary-foreground shadow-xs hover:bg-primary/90 sm:h-12 sm:w-auto sm:px-8 sm:text-base"
           >
-            {loading ? (
+            {limitReached ? (
+              "Limit reached"
+            ) : loading ? (
               <>
                 <Loader className="animate-spin w-4 h-4 mr-1.5" />
                 Tracking...
@@ -81,6 +101,13 @@ const AddProductForm = ({ isAuthenticated }: { isAuthenticated: boolean }) => {
             )}
           </Button>
         </div>
+        {isAuthenticated && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            {limitReached
+              ? `Limit reached (${limit}). Remove a product to add another.`
+              : `${currentCount}/${limit} tracked`}
+          </p>
+        )}
       </form>
       <AuthModal
         isOpen={showAuthModal}
