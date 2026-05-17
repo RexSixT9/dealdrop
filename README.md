@@ -32,9 +32,12 @@ DealDrop is a price-tracking web app that lets users paste product links, track 
 
 **Desktop**
 
-| Light | Dark |
-| --- | --- |
-| ![DealDrop desktop light](public/screenshots/app-desktop-light.png) | ![DealDrop desktop dark](public/screenshots/app-desktop-dark.png) |
+<p align="center">
+	<img alt="DealDrop desktop light" src="public/screenshots/screenshot_light.png" width="800" />
+</p>
+<p align="center">
+	<img alt="DealDrop desktop dark" src="public/screenshots/screenshot_dark.png" width="800" />
+</p>
 
 
 ## Features ✨
@@ -155,49 +158,61 @@ Open http://localhost:3000 to view the app.
 
 ## Project Structure 📁
 
-```
-app/
-	api/
-		cron/
-			check-prices/
-				route.ts
-	auth/
-		actions.ts
-		callback/
-			route.ts
-	globals.css
-	layout.tsx
-	manifest.ts
-	page.tsx
-	robots.ts
-	sitemap.ts
-components/
-	ui/
-	AddProductForm.tsx
-	AuthButton.tsx
-	AuthModal.tsx
-	Footer.tsx
-	PriceChart.tsx
-	ProductCard.tsx
-	PwaProvider.tsx
-	mode-toggle.tsx
-	theme-provider.tsx
-constants/
-	data.ts
-lib/
-	firecrawl/
-		firecrawl.ts
-	supabase/
-		client.ts
-		env.ts
-		middleware.ts
-		proxy.ts
-		server.ts
-	email.ts
-	utils.ts
-public/
-	screenshots/
-	sw.js
+```text
+dealdrop/
+├── app/
+│   ├── api/
+│   │   └── cron/
+│   │       └── check-prices/
+│   │           └── route.ts            # Cron endpoint for price checks
+│   ├── auth/
+│   │   ├── actions.ts                  # Server actions for DB/Auth
+│   │   └── callback/
+│   │       └── route.ts                # OAuth callback handler
+│   ├── offline/
+│   │   └── page.tsx                    # Offline fallback page
+│   ├── redirect/
+│   │   └── route.ts                    # Auth redirection
+│   ├── globals.css                     # Global styles
+│   ├── layout.tsx                      # Root layout
+│   ├── manifest.ts                     # PWA manifest
+│   ├── not-found.tsx                   # Custom 404 page
+│   ├── opengraph-image.tsx             # OG Image generation
+│   ├── page.tsx                        # Landing page with product input
+│   ├── robots.ts                       # robots.txt
+│   └── sitemap.ts                      # sitemap.xml
+├── components/
+│   ├── ui/                             # shadcn/ui components
+│   ├── AddProductForm.tsx              # Product URL input with auth check
+│   ├── AuthButton.tsx                  # Sign in/out button
+│   ├── AuthModal.tsx                   # OAuth sign-in modal
+│   ├── Footer.tsx                      # Site footer
+│   ├── OfflineBanner.tsx               # Network status banner
+│   ├── PriceChart.tsx                  # Recharts price history
+│   ├── ProductCard.tsx                 # Product display component
+│   ├── ProductGrid.tsx                 # Grid layout for products
+│   ├── PwaProvider.tsx                 # PWA service worker provider
+│   ├── mode-toggle.tsx                 # Dark/light theme toggle
+│   └── theme-provider.tsx              # next-themes setup
+├── constants/
+│   └── data.ts                         # Static application data
+├── lib/
+│   ├── firecrawl/
+│   │   └── firecrawl.ts                # Firecrawl API integration
+│   ├── supabase/
+│   │   ├── client.ts                   # Browser Supabase client
+│   │   ├── env.ts                      # Supabase env utilities
+│   │   ├── middleware.ts               # Session refresh middleware
+│   │   ├── proxy.ts                    # Supabase proxy utilities
+│   │   └── server.ts                   # Server Supabase client
+│   ├── email.ts                        # Resend email templates
+│   ├── image-loader.ts                 # Next.js custom image loader
+│   └── utils.ts                        # Utility functions
+├── public/
+│   ├── screenshots/                    # App preview images
+│   └── sw.js                           # Service worker implementation
+├── proxy.ts                            # Next.js proxy (replaces middleware)
+└── .env.local                          # Environment variables
 ```
 
 ## Live Demo 🌐

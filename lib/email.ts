@@ -28,6 +28,9 @@ export async function sendPriceDropAlert(
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
     if (!appUrl) throw new Error("NEXT_PUBLIC_APP_URL is not configured");
 
+    const productRedirectUrl = new URL("/redirect", appUrl);
+    productRedirectUrl.searchParams.set("u", product.url);
+
     const priceDrop = oldPrice - newPrice;
     const percentageDrop =
       oldPrice > 0 ? ((priceDrop / oldPrice) * 100).toFixed(1) : "0";
@@ -101,7 +104,7 @@ export async function sendPriceDropAlert(
               </table>
               
               <div style="text-align: center; margin: 30px 0;">
-                <a href="${product.url}" 
+                <a href="${productRedirectUrl.toString()}" 
                    style="display: inline-block; background: #FA5D19; color: white; padding: 14px 30px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">
                   View Product →
                 </a>

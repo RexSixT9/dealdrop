@@ -10,7 +10,7 @@ import { FAQS, HIGHLIGHTS, STEPS } from "@/constants/data";
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
 
 export const metadata: Metadata = {
-  title: "Track price drops before they sell out",
+  title: "DealDrop - Price Tracker & Alerts",
   description:
     "DealDrop tracks product prices, sends instant email alerts, and helps shoppers catch discounts before they disappear.",
   alternates: {
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: "DealDrop - Smart Price Tracker",
+    title: "DealDrop | Price Tracker & Alerts",
     description:
       "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
     images: [
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "DealDrop - Smart Price Tracker",
+    title: "DealDrop | Price Tracker & Alerts",
     description:
       "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
     images: [`${siteUrl}/opengraph-image`],

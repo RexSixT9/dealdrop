@@ -22,7 +22,7 @@ const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "DealDrop - Smart Price Tracker",
+    default: "DealDrop | Price Tracker & Alerts",
     template: "%s | DealDrop",
   },
   description:
@@ -76,14 +76,14 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: "DealDrop",
-    title: "DealDrop - Smart Price Tracker",
+    title: "DealDrop | Price Tracker & Alerts",
     description:
       "Track product prices from your favorite stores and get instant alerts when prices drop.",
     images: [{ url: "/favicon-512.png", width: 512, height: 512, alt: "DealDrop" }],
   },
   twitter: {
     card: "summary",
-    title: "DealDrop - Smart Price Tracker",
+    title: "DealDrop | Price Tracker & Alerts",
     description:
       "Track product prices from your favorite stores and get instant alerts when prices drop.",
     images: ["/favicon-512.png"],
