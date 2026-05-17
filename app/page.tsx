@@ -214,7 +214,7 @@ export default async function Home() {
                 <ProductGrid products={products} />
               ) : (
                 <div className="space-y-6">
-                  <div className="rounded-3xl border border-border/70 bg-card/70 p-8 text-center sm:p-10">
+                  <div className="rounded-3xl border-2 border-dashed border-border/70 bg-card/70 p-8 text-center sm:p-10">
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-border/70 bg-primary/10 text-primary">
                       <TrendingDown className="h-8 w-8" />
                     </div>
