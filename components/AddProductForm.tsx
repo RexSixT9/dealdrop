@@ -14,6 +14,19 @@ type AddProductFormProps = {
   limit: number;
 };
 
+function getUrlError(value: string) {
+  try {
+    const parsed = new URL(value);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return "Use a URL that starts with http or https.";
+    }
+  } catch {
+    return "Please enter a valid product URL.";
+  }
+
+  return null;
+}
+
 const AddProductForm = ({
   isAuthenticated,
   currentCount,
@@ -22,6 +35,7 @@ const AddProductForm = ({
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const limitReached = isAuthenticated && currentCount >= limit;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -29,23 +43,34 @@ const AddProductForm = ({
     const normalizedUrl = url.trim();
 
     if (limitReached) {
-      toast.error(
-        `Tracking limit reached (${limit}). Remove a product to add another.`,
-      );
+      const message = `Tracking limit reached (${limit}). Remove a product to add another.`;
+      setError(message);
+      toast.error(message);
       return;
     }
 
     if (!normalizedUrl) {
-      toast.error("Please enter a valid product URL.");
+      const message = "Please enter a valid product URL.";
+      setError(message);
+      toast.error(message);
+      return;
+    }
+
+    const urlError = getUrlError(normalizedUrl);
+    if (urlError) {
+      setError(urlError);
+      toast.error(urlError);
       return;
     }
 
     if (!isAuthenticated) {
+      setError(null);
       setShowAuthModal(true);
       return;
     }
 
     setLoading(true);
+    setError(null);
 
     try {
       const formData = new FormData();
@@ -65,16 +90,19 @@ const AddProductForm = ({
           toast.success(message);
           setUrl("");
         }
+        setError(null);
       } else {
-        toast.error(
-          result.message || "Failed to add product. Please try again.",
-        );
+        const message =
+          result.message || "Failed to add product. Please try again.";
+        setError(message);
+        toast.error(message);
       }
     } catch (error) {
       const message =
         error instanceof Error
           ? error.message
           : "Failed to add product. Please try again.";
+      setError(message);
       toast.error(message);
     } finally {
       setLoading(false);
@@ -89,9 +117,14 @@ const AddProductForm = ({
             type="url"
             placeholder="Paste a product URL"
             value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={(e) => {
+              setUrl(e.target.value);
+              if (error) setError(null);
+            }}
             required
             disabled={loading || limitReached}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? "add-product-error" : undefined}
             className="h-11 rounded-xl border-border/80 bg-card/70 text-sm shadow-xs sm:h-12 sm:flex-1 sm:text-base"
           />
           <Button
@@ -116,6 +149,15 @@ const AddProductForm = ({
             {limitReached
               ? `Limit reached (${limit}). Remove a product to add another.`
               : `${currentCount}/${limit} tracked`}
+          </p>
+        )}
+        {error && (
+          <p
+            id="add-product-error"
+            role="alert"
+            className="mt-2 text-xs text-destructive"
+          >
+            {error}
           </p>
         )}
       </form>

@@ -22,6 +22,41 @@ function normalizeCurrencyCode(value?: string, fallback = "USD") {
   return symbolMap[trimmed] || fallback;
 }
 
+const DEFAULT_HISTORY_RETENTION_DAYS = 90;
+
+function getHistoryRetentionDays() {
+  const parsed = Number(process.env.PRICE_HISTORY_RETENTION_DAYS);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return DEFAULT_HISTORY_RETENTION_DAYS;
+  }
+  return Math.floor(parsed);
+}
+
+async function pruneOldHistory(
+  supabase: ReturnType<typeof createClient>,
+  retentionDays: number,
+) {
+  if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
+
+  const cutoff = new Date(
+    Date.now() - retentionDays * 24 * 60 * 60 * 1000,
+  ).toISOString();
+
+  const { count, error } = await supabase
+    .from("price_history")
+    .delete({ count: "exact" })
+    .lt("checked_at", cutoff);
+
+  if (error) {
+    console.error("Error pruning price history:", {
+      message: error.message,
+    });
+    return 0;
+  }
+
+  return count ?? 0;
+}
+
 function isAuthorized(request: Request) {
   const authHeader =
     request.headers.get("authorization") ||
@@ -55,35 +90,37 @@ async function runPriceCheck(request: Request) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
+    const retentionDays = getHistoryRetentionDays();
+
     const { data: products, error: productsError } = await supabase
       .from("products")
       .select("*");
 
     if (productsError) throw productsError;
-    if (!products || products.length === 0) {
-      console.warn("No products found in DB");
-      return NextResponse.json({
-        success: true,
-        message: "No products to process",
-        results: {
-          total: 0,
-          updated: 0,
-          failed: 0,
-          priceChanges: 0,
-          alertsSent: 0,
-        },
-      });
-    }
-
-    console.log(`Found ${products.length} products to check`);
 
     const results = {
-      total: products.length,
+      total: products?.length ?? 0,
       updated: 0,
       failed: 0,
       priceChanges: 0,
       alertsSent: 0,
+      historyPruned: 0,
     };
+
+    if (!products || products.length === 0) {
+      console.warn("No products found in DB");
+      results.historyPruned = await pruneOldHistory(
+        supabase,
+        retentionDays,
+      );
+      return NextResponse.json({
+        success: true,
+        message: "No products to process",
+        results,
+      });
+    }
+
+    console.log(`Found ${products.length} products to check`);
 
     for (const product of products) {
       try {
@@ -192,6 +229,8 @@ async function runPriceCheck(request: Request) {
         results.failed++;
       }
     }
+
+    results.historyPruned = await pruneOldHistory(supabase, retentionDays);
 
     return NextResponse.json({
       success: true,
