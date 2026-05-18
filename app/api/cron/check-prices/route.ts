@@ -1,6 +1,7 @@
 import { sendPriceDropAlert } from "@/lib/email";
 import { scrapeProduct } from "@/lib/firecrawl/firecrawl";
 import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 function normalizeCurrencyCode(value?: string, fallback = "USD") {
@@ -33,7 +34,7 @@ function getHistoryRetentionDays() {
 }
 
 async function pruneOldHistory(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   retentionDays: number,
 ) {
   if (!Number.isFinite(retentionDays) || retentionDays <= 0) return 0;
