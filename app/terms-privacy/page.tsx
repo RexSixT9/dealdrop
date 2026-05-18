@@ -15,18 +15,18 @@ import { createClient } from "@/lib/supabase/server";
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
 
 export const metadata: Metadata = {
-  title: "Terms and Privacy",
+  title: "Terms and Privacy Policy",
   description:
-    "Terms of Service and Privacy Policy for the DealDrop price tracking platform.",
+    "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
   alternates: {
     canonical: "/terms-privacy",
   },
   openGraph: {
     type: "website",
     url: `${siteUrl}/terms-privacy`,
-    title: "Terms and Privacy | DealDrop",
+    title: "Terms and Privacy Policy | DealDrop",
     description:
-      "Terms of Service and Privacy Policy for the DealDrop price tracking platform.",
+      "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
   },
 };
 
@@ -137,11 +137,11 @@ export default async function TermsPrivacyPage() {
                 <div className="flex flex-col gap-4">
                   <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
                     <FileText className="h-3.5 w-3.5" />
-                    Terms + privacy
+                    Terms and Privacy
                   </div>
                   <div className="flex flex-col gap-3">
                     <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                      Terms and privacy in one place.
+                      Terms and Privacy in one place.
                     </h1>
                     <p className="text-sm leading-relaxed text-muted-foreground sm:text-lg">
                       This page covers how DealDrop works, what data we collect, and the rules for
