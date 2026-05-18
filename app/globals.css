@@ -150,60 +150,44 @@
   }
 
   .bg-copper-forge {
-    background: radial-gradient(
-        ellipse 65% 50% at 50% 0%,
-        hsl(var(--primary-hsl) / 0.15),
-        transparent 68%
-      ),
-      radial-gradient(
-        ellipse 45% 40% at 78% 16%,
-        hsl(var(--primary-hsl) / 0.08),
-        transparent 62%
-      ),
-      var(--background);
+    background-color: hsla(20.5, 90%, 48%, 0.02);
+    background-image:
+      radial-gradient(420px circle at 12% 18%, hsla(20.5, 92%, 54%, 0.16), transparent 40%),
+      radial-gradient(320px circle at 84% 12%, hsla(20.5, 92%, 60%, 0.08), transparent 48%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: opacity 220ms ease-in-out;
+    will-change: transform, opacity;
   }
 
   .dark .bg-copper-forge {
-    background: radial-gradient(
-        ellipse 65% 50% at 50% 0%,
-        hsl(var(--primary-hsl) / 0.20),
-        transparent 68%
-      ),
-      radial-gradient(
-        ellipse 50% 42% at 22% 14%,
-        hsl(var(--primary-hsl) / 0.10),
-        transparent 60%
-      ),
-      var(--background);
+    background-color: hsla(20.5, 90%, 18%, 0.03);
+    background-image:
+      radial-gradient(520px circle at 14% 18%, hsla(20.5, 92%, 46%, 0.20), transparent 36%),
+      radial-gradient(380px circle at 82% 8%, hsla(20.5, 92%, 50%, 0.10), transparent 44%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: opacity 220ms ease-in-out;
+    will-change: transform, opacity;
   }
 
   @media (max-width: 640px) {
     .bg-copper-forge {
-      background: radial-gradient(
-          ellipse 55% 40% at 50% 0%,
-          hsl(var(--primary-hsl) / 0.12),
-          transparent 66%
-        ),
-        radial-gradient(
-          ellipse 38% 34% at 80% 12%,
-          hsl(var(--primary-hsl) / 0.05),
-          transparent 60%
-        ),
-        var(--background);
+      background-color: hsla(20.5, 90%, 48%, 0.01);
+      background-image:
+        radial-gradient(320px circle at 10% 10%, hsla(20.5, 92%, 54%, 0.12), transparent 50%),
+        radial-gradient(220px circle at 88% 8%, hsla(20.5, 92%, 60%, 0.05), transparent 55%);
+      background-repeat: no-repeat;
+      background-size: cover;
     }
 
     .dark .bg-copper-forge {
-      background: radial-gradient(
-          ellipse 55% 40% at 50% 0%,
-          hsl(var(--primary-hsl) / 0.16),
-          transparent 66%
-        ),
-        radial-gradient(
-          ellipse 40% 34% at 20% 12%,
-          hsl(var(--primary-hsl) / 0.08),
-          transparent 58%
-        ),
-        var(--background);
+      background-color: hsla(20.5, 90%, 10%, 0.02);
+      background-image:
+        radial-gradient(360px circle at 12% 12%, hsla(20.5, 92%, 46%, 0.16), transparent 50%),
+        radial-gradient(260px circle at 20% 10%, hsla(20.5, 92%, 50%, 0.08), transparent 55%);
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   }
 
