@@ -117,7 +117,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <MotionPage className="relative overflow-hidden">
+      <MotionPage className="relative isolate overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
 

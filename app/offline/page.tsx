@@ -9,7 +9,7 @@ export default function OfflinePage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="relative overflow-hidden">
+      <div className="relative isolate overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
 
