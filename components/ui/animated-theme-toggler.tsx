@@ -20,9 +20,10 @@ export type TransitionVariant =
 
 interface AnimatedThemeTogglerProps
   extends React.ComponentPropsWithoutRef<"button">,
-    VariantProps<typeof buttonVariants> {
+    Omit<VariantProps<typeof buttonVariants>, "variant"> {
   duration?: number;
-  variant?: TransitionVariant;
+  transitionVariant?: TransitionVariant;
+  variant?: VariantProps<typeof buttonVariants>["variant"];
   fromCenter?: boolean;
 }
 
@@ -131,10 +132,10 @@ function getThemeTransitionClipPaths(
 
 export function AnimatedThemeToggler({
   className,
-  duration = 400,
-  variant = "circle",
+  duration = 300,
+  transitionVariant = "circle",
   fromCenter = false,
-  variant: buttonVariant = "outline",
+  variant = "outline",
   size = "icon",
   ...props
 }: AnimatedThemeTogglerProps) {
@@ -185,7 +186,7 @@ export function AnimatedThemeToggler({
     }
 
     const clipPath = getThemeTransitionClipPaths(
-      variant,
+      transitionVariant,
       x,
       y,
       maxRadius,
@@ -224,21 +225,21 @@ export function AnimatedThemeToggler({
           { clipPath },
           {
             duration,
-            easing: variant === "star" ? "linear" : "ease-in-out",
+            easing: transitionVariant === "star" ? "linear" : "ease-in-out",
             fill: "forwards",
             pseudoElement: "::view-transition-new(root)",
           },
         );
       });
     }
-  }, [duration, fromCenter, setTheme, variant]);
+  }, [duration, fromCenter, setTheme, transitionVariant]);
 
   return (
     <button
       type="button"
       ref={buttonRef}
       onClick={toggleTheme}
-      className={cn(buttonVariants({ variant: buttonVariant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     >
       {isDark ? (

@@ -152,12 +152,12 @@
   .bg-copper-forge {
     background: radial-gradient(
         ellipse 65% 50% at 50% 0%,
-        hsl(var(--primary-hsl) / 0.2),
+        hsl(var(--primary-hsl) / 0.15),
         transparent 68%
       ),
       radial-gradient(
         ellipse 45% 40% at 78% 16%,
-        hsl(var(--primary-hsl) / 0.1),
+        hsl(var(--primary-hsl) / 0.08),
         transparent 62%
       ),
       var(--background);
@@ -166,12 +166,12 @@
   .dark .bg-copper-forge {
     background: radial-gradient(
         ellipse 65% 50% at 50% 0%,
-        hsl(var(--primary-hsl) / 0.28),
+        hsl(var(--primary-hsl) / 0.20),
         transparent 68%
       ),
       radial-gradient(
         ellipse 50% 42% at 22% 14%,
-        hsl(var(--primary-hsl) / 0.14),
+        hsl(var(--primary-hsl) / 0.10),
         transparent 60%
       ),
       var(--background);
@@ -181,12 +181,12 @@
     .bg-copper-forge {
       background: radial-gradient(
           ellipse 55% 40% at 50% 0%,
-          hsl(var(--primary-hsl) / 0.16),
+          hsl(var(--primary-hsl) / 0.12),
           transparent 66%
         ),
         radial-gradient(
           ellipse 38% 34% at 80% 12%,
-          hsl(var(--primary-hsl) / 0.08),
+          hsl(var(--primary-hsl) / 0.05),
           transparent 60%
         ),
         var(--background);
@@ -195,12 +195,12 @@
     .dark .bg-copper-forge {
       background: radial-gradient(
           ellipse 55% 40% at 50% 0%,
-          hsl(var(--primary-hsl) / 0.22),
+          hsl(var(--primary-hsl) / 0.16),
           transparent 66%
         ),
         radial-gradient(
           ellipse 40% 34% at 20% 12%,
-          hsl(var(--primary-hsl) / 0.12),
+          hsl(var(--primary-hsl) / 0.08),
           transparent 58%
         ),
         var(--background);
@@ -209,15 +209,16 @@
 
   .bg-grid {
     background-image:
-      linear-gradient(to right, hsl(var(--primary-hsl) / 0.08) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--primary-hsl) / 0.08) 1px, transparent 1px);
+      linear-gradient(to right, hsl(var(--primary-hsl) / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary-hsl) / 0.05) 1px, transparent 1px);
     background-size: 64px 64px;
+    will-change: transform;
   }
 
   .dark .bg-grid {
     background-image:
-      linear-gradient(to right, hsl(var(--primary-hsl) / 0.14) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--primary-hsl) / 0.14) 1px, transparent 1px);
+      linear-gradient(to right, hsl(var(--primary-hsl) / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--primary-hsl) / 0.08) 1px, transparent 1px);
   }
 }
 
