@@ -11,7 +11,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Loader2 } from "lucide-react";
-import { getPriceHistory } from "@/app/auth/actions";
 import { useTheme } from "next-themes";
 
 type PriceChartProps = {
@@ -23,9 +22,66 @@ type PriceChartPoint = {
   price: number;
 };
 
+type PriceHistoryResponse = {
+  history: Array<{
+    checked_at: string;
+    price: number | string;
+  }>;
+};
+
+const HISTORY_CACHE_TTL = 30_000;
+
+const priceHistoryCache = new Map<
+  string,
+  {
+    fetchedAt: number;
+    promise: Promise<PriceChartPoint[]>;
+  }
+>();
+
+async function fetchPriceHistory(productId: string) {
+  const cached = priceHistoryCache.get(productId);
+
+  if (cached && Date.now() - cached.fetchedAt < HISTORY_CACHE_TTL) {
+    return cached.promise;
+  }
+
+  const request = fetch(`/api/products/${encodeURIComponent(productId)}/history`, {
+    method: "GET",
+    credentials: "include",
+  })
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error(`Failed to load chart data (${response.status})`);
+      }
+
+      const payload = (await response.json()) as PriceHistoryResponse;
+
+      return payload.history.map((item) => ({
+        date: new Date(item.checked_at).toLocaleDateString(),
+        price: Number(item.price),
+      }));
+    })
+    .catch((error) => {
+      if (priceHistoryCache.get(productId)?.promise === request) {
+        priceHistoryCache.delete(productId);
+      }
+
+      throw error;
+    });
+
+  priceHistoryCache.set(productId, {
+    fetchedAt: Date.now(),
+    promise: request,
+  });
+
+  return request;
+}
+
 export default function PriceChart({ productId }: PriceChartProps) {
   const [data, setData] = useState<PriceChartPoint[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
 
   const isDark = resolvedTheme === "dark";
@@ -36,19 +92,38 @@ export default function PriceChart({ productId }: PriceChartProps) {
   const accentColor = "#FA5D19";
 
   useEffect(() => {
+    let cancelled = false;
+
     async function loadData() {
-      const history = await getPriceHistory(productId);
+      setLoading(true);
+      setError(null);
 
-      const chartData = history.map((item) => ({
-        date: new Date(item.checked_at).toLocaleDateString(),
-        price: parseFloat(item.price),
-      }));
+      try {
+        const chartData = await fetchPriceHistory(productId);
 
-      setData(chartData);
-      setLoading(false);
+        if (!cancelled) {
+          setData(chartData);
+        }
+      } catch (fetchError) {
+        if (!cancelled) {
+          setError(
+            fetchError instanceof Error
+              ? fetchError.message
+              : "Failed to load chart data.",
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
     }
 
     loadData();
+
+    return () => {
+      cancelled = true;
+    };
   }, [productId]);
 
   if (loading) {
@@ -56,6 +131,14 @@ export default function PriceChart({ productId }: PriceChartProps) {
       <div className="flex w-full items-center justify-center py-8 text-muted-foreground">
         <Loader2 className="w-5 h-5 animate-spin mr-2" />
         Loading chart...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full py-8 text-center text-sm text-muted-foreground">
+        {error}
       </div>
     );
   }

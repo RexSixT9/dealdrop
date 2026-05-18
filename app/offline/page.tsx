@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, RefreshCw, WifiOff } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import AuthButton from "@/components/AuthButton";
+import Logo from "@/components/Logo";
 
 export default function OfflinePage() {
   const user = null;
@@ -16,22 +16,7 @@ export default function OfflinePage() {
         <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
           <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
             <div className="flex min-w-0 items-center gap-3">
-              <Image
-                loading="eager"
-                className="hidden h-8 w-auto dark:block sm:h-10"
-                src="/logo-navbar-dark.svg"
-                alt="DealDrop logo"
-                width={600}
-                height={600}
-              />
-              <Image
-                loading="eager"
-                className="block h-8 w-auto dark:hidden sm:h-10"
-                src="/logo-navbar-light.svg"
-                alt="DealDrop logo"
-                width={600}
-                height={600}
-              />
+              <Logo variant="full" />
             </div>
             <div className="flex shrink-0 items-center gap-2 max-[360px]:gap-1.5 sm:gap-3">
               <ModeToggle />

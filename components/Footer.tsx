@@ -27,6 +27,20 @@ export default function Footer() {
           <span>© {year} DealDrop</span>
           <span className="text-muted-foreground/80">•</span>
           <Link
+            href="/privacy"
+            className="font-medium text-muted-foreground/90 transition-colors hover:text-foreground"
+          >
+            Privacy
+          </Link>
+          <span className="text-muted-foreground/80">•</span>
+          <Link
+            href="/terms"
+            className="font-medium text-muted-foreground/90 transition-colors hover:text-foreground"
+          >
+            Terms
+          </Link>
+          <span className="text-muted-foreground/80">•</span>
+          <Link
             href="https://github.com/RexSixT9"
             className="font-medium text-muted-foreground/90 transition-colors hover:text-foreground"
           >
