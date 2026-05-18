@@ -28,6 +28,12 @@ export const metadata: Metadata = {
     description:
       "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
   },
+  twitter: {
+    card: "summary",
+    title: "Terms and Privacy Policy | DealDrop",
+    description:
+      "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
+  },
 };
 
 const sections = [

@@ -1,0 +1,14 @@
+# DealDrop
+> DealDrop is a SaaS price-tracking platform that monitors public product pages and sends price-drop alerts.
+
+## Primary URLs
+- https://deals.r6t9.space/
+- https://deals.r6t9.space/terms-privacy
+
+## Product Summary
+- Track product prices and receive email alerts when prices drop.
+- Manage a personal watchlist with price history.
+- Uses third-party services for data extraction and email delivery.
+
+## Support
+- https://github.com/RexSixT9/dealdrop
