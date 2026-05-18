@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, SearchX } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -31,24 +30,6 @@ export default function NotFound() {
             <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
               <SearchX className="h-3.5 w-3.5" />
               Page not found
-            </div>
-            <div className="w-full max-w-lg">
-              <Image
-                src="/illustrations/404-static-dark.svg"
-                alt="Price chart dropped off"
-                width={600}
-                height={400}
-                priority
-                className="hidden h-auto w-full dark:block"
-              />
-              <Image
-                src="/illustrations/404-static-light.svg"
-                alt="Price chart dropped off"
-                width={600}
-                height={400}
-                priority
-                className="block h-auto w-full dark:hidden"
-              />
             </div>
             <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
               This page slipped off the radar.
