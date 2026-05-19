@@ -27,17 +27,10 @@ export default function Footer() {
           <span>© {year} DealDrop</span>
           <span className="text-muted-foreground/80">•</span>
           <Link
-            href="/privacy"
+            href="/terms-privacy"
             className="font-medium text-muted-foreground/90 transition-colors hover:text-foreground"
           >
-            Privacy
-          </Link>
-          <span className="text-muted-foreground/80">•</span>
-          <Link
-            href="/terms"
-            className="font-medium text-muted-foreground/90 transition-colors hover:text-foreground"
-          >
-            Terms
+            Terms and Privacy
           </Link>
           <span className="text-muted-foreground/80">•</span>
           <Link
