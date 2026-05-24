@@ -10,6 +10,7 @@ import {
   MotionStagger,
 } from "@/components/MotionReveal";
 import ProductGrid from "@/components/ProductGrid";
+import LightRaysBackground from "@/components/ui/LightRaysBackground";
 import type { TrackedProduct } from "@/components/ProductCard";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { ArrowUpRight, Sparkles, TrendingDown } from "lucide-react";
@@ -118,8 +119,8 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <MotionPage className="relative isolate overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
+        <LightRaysBackground />
 
         <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
           <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
@@ -134,14 +135,14 @@ export default async function Home() {
         </header>
 
         <MotionReveal>
-          <section className="flex min-h-[calc(100svh-64px)] items-center px-4 pb-12 pt-14 sm:min-h-[calc(100svh-72px)] sm:px-6 sm:pb-16 sm:pt-20 lg:px-8">
-            <MotionStagger className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 text-center sm:gap-7">
-              <MotionItem className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+          <section className="flex min-h-[82svh] items-center px-4 pb-14 pt-12 sm:min-h-[78svh] sm:px-6 sm:pb-20 sm:pt-16 lg:min-h-[640px] lg:px-8 lg:pb-16 lg:pt-20 xl:min-h-[680px] 2xl:min-h-[720px]">
+            <MotionStagger className="mx-auto flex w-full max-w-4xl flex-col items-center gap-5 text-center sm:gap-7 lg:gap-6">
+              <MotionItem className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-1.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
                 <Sparkles className="h-3.5 w-3.5" />
                 Smart price tracking
               </MotionItem>
               <MotionItem>
-                <h1 className="font-heading text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+                <h1 className="font-heading max-w-3xl text-4xl font-bold text-foreground sm:text-5xl sm:leading-tight lg:text-6xl lg:leading-[1.06]">
                   Track{" "}
                   <PointerHighlight
                     containerClassName="mx-1 align-baseline"
@@ -154,19 +155,19 @@ export default async function Home() {
                 </h1>
               </MotionItem>
               <MotionItem>
-                <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-lg">
-                  DealDrop monitors the products you care about and emails you when
-                  they reach your target price.
+                <p className="max-w-2xl text-base font-normal leading-8 text-muted-foreground sm:text-lg sm:leading-9 lg:max-w-3xl">
+                  DealDrop monitors the products you care about and emails you
+                  when they reach your target price.
                 </p>
               </MotionItem>
-              <MotionItem className="w-full">
+              <MotionItem className="w-full pt-3">
                 <AddProductForm
                   isAuthenticated={Boolean(user)}
                   currentCount={currentCount}
                   limit={limit}
                 />
               </MotionItem>
-              <MotionItem className="flex flex-wrap items-center justify-center gap-2.5 text-xs text-muted-foreground sm:gap-3 sm:text-sm">
+              <MotionItem className="flex flex-wrap items-center justify-center gap-3 pt-1 text-xs text-muted-foreground sm:gap-3.5 sm:text-sm">
                 <span className="rounded-full border border-border/70 bg-card/70 px-3 py-1">
                   No app install
                 </span>
@@ -192,21 +193,21 @@ export default async function Home() {
 
         {user && (
           <MotionReveal>
-            <section className="px-4 pb-10 sm:px-6 sm:pb-14 lg:px-8">
-              <div className="mx-auto w-full max-w-5xl">
-                <MotionStagger className="mb-6 text-center sm:mb-8">
+            <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 lg:pb-16 xl:pb-20">
+              <div className="mx-auto w-full max-w-6xl">
+                <MotionStagger className="mb-8 text-center sm:mb-10 lg:mb-9">
                   <MotionItem>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+                    <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
                       Your watchlist
                     </p>
                   </MotionItem>
                   <MotionItem>
-                    <h2 className="font-heading mt-2 text-2xl font-semibold text-foreground sm:text-3xl">
+                    <h2 className="font-heading mt-3 text-2xl font-semibold text-foreground sm:text-3xl">
                       Tracked products
                     </h2>
                   </MotionItem>
                   <MotionItem>
-                    <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                    <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
                       {currentCount > 0
                         ? "Manage your tracked products and check recent price moves."
                         : "Add a product URL to start tracking your first price drop."}
@@ -219,16 +220,16 @@ export default async function Home() {
                 ) : (
                   <div className="space-y-6">
                     <MotionReveal>
-                      <div className="rounded-3xl border-2 border-dashed border-border/70 bg-card/70 p-8 text-center sm:p-10">
-                        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-border/70 bg-primary/10 text-primary">
+                      <div className="rounded-3xl border-2 border-dashed border-border/70 bg-card/70 p-8 text-center sm:p-12">
+                        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-border/70 bg-primary/10 text-primary">
                           <TrendingDown className="h-8 w-8" />
                         </div>
-                        <h3 className="font-heading mb-2 text-xl font-semibold text-foreground">
+                        <h3 className="font-heading mb-3 text-xl font-semibold text-foreground">
                           Your watchlist is empty
                         </h3>
-                        <p className="text-sm text-muted-foreground sm:text-base">
-                          Add your first product above and let DealDrop watch the price
-                          for you.
+                        <p className="mx-auto max-w-md text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+                          Add your first product above and let DealDrop watch
+                          the price for you.
                         </p>
                       </div>
                     </MotionReveal>
@@ -242,20 +243,24 @@ export default async function Home() {
         {!user && (
           <>
             <MotionReveal>
-              <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-                <MotionStagger className="mx-auto grid w-full max-w-5xl gap-4 sm:gap-5 md:grid-cols-3">
+              <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-16 xl:py-20">
+                <MotionStagger className="mx-auto grid w-full max-w-6xl items-stretch gap-5 sm:gap-6 lg:grid-cols-3 lg:gap-7">
                   {HIGHLIGHTS.map((item) => (
                     <MotionItem
                       key={item.title}
-                      className="flex h-full flex-col items-center gap-2 rounded-2xl border border-border/60 bg-card/70 p-5 text-center sm:p-6"
+                      className="h-full"
                     >
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-primary/10 text-primary">
-                        <item.icon className="h-5 w-5" />
-                      </div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">{item.copy}</p>
+                      <article className="flex h-full flex-col items-center gap-3 rounded-2xl border border-border/60 bg-card/70 p-6 text-center sm:p-7">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-primary/10 text-primary">
+                          <item.icon className="h-5 w-5" />
+                        </div>
+                        <h3 className="text-base font-semibold text-foreground">
+                          {item.title}
+                        </h3>
+                        <p className="text-sm leading-6 text-muted-foreground">
+                          {item.copy}
+                        </p>
+                      </article>
                     </MotionItem>
                   ))}
                 </MotionStagger>
@@ -263,39 +268,41 @@ export default async function Home() {
             </MotionReveal>
 
             <MotionReveal>
-              <section id="how" className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-                <div className="mx-auto grid w-full max-w-5xl gap-10 md:grid-cols-[1.05fr_0.95fr] md:items-center">
-                  <MotionStagger className="text-center">
+              <section id="how" className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-16 xl:py-20">
+                <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 sm:gap-10 lg:gap-12">
+                  <MotionStagger className="mx-auto max-w-2xl text-center">
                     <MotionItem>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+                      <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
                         How it works
                       </p>
                     </MotionItem>
                     <MotionItem>
-                      <h2 className="font-heading mt-2 text-2xl font-semibold text-foreground sm:text-3xl">
+                      <h2 className="font-heading mt-3 text-2xl font-semibold text-foreground sm:text-3xl">
                         Three steps. One alert.
                       </h2>
                     </MotionItem>
                     <MotionItem>
-                      <p className="mt-3 text-sm text-muted-foreground sm:text-base">
+                      <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
                         Set it once and stay ready for the next drop.
                       </p>
                     </MotionItem>
                   </MotionStagger>
                   <MotionStagger>
-                    <ol className="grid gap-4 text-center sm:gap-5">
+                    <ol className="grid items-stretch gap-5 text-center sm:gap-6 lg:grid-cols-3 lg:gap-7">
                       {STEPS.map((item) => (
-                        <li key={item.step}>
-                          <MotionItem className="flex flex-col items-center rounded-2xl border border-border/60 bg-card/70 p-5 sm:p-6">
-                            <p className="text-[11px] font-semibold text-primary sm:text-xs">
-                              {item.step}
-                            </p>
-                            <h3 className="mt-2 text-base font-semibold text-foreground">
-                              {item.title}
-                            </h3>
-                            <p className="mt-1 text-sm text-muted-foreground">
-                              {item.copy}
-                            </p>
+                        <li key={item.step} className="h-full">
+                          <MotionItem className="h-full">
+                            <article className="flex h-full flex-col items-center rounded-2xl border border-border/60 bg-card/70 p-6 sm:p-7">
+                              <p className="text-[11px] font-medium text-primary sm:text-xs">
+                                {item.step}
+                              </p>
+                              <h3 className="mt-3 text-base font-semibold text-foreground">
+                                {item.title}
+                              </h3>
+                              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                                {item.copy}
+                              </p>
+                            </article>
                           </MotionItem>
                         </li>
                       ))}
@@ -306,17 +313,17 @@ export default async function Home() {
             </MotionReveal>
 
             <MotionReveal>
-              <section className="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8">
-                <MotionStagger className="mx-auto flex max-w-5xl flex-col items-center gap-5 rounded-3xl border border-border/70 bg-card/80 px-6 py-8 text-center sm:gap-6 sm:px-10 sm:py-10">
+              <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-16 xl:py-20">
+                <MotionStagger className="mx-auto flex max-w-4xl flex-col items-center gap-6 rounded-3xl border border-border/70 bg-card/80 px-6 py-10 text-center sm:gap-8 sm:px-10 sm:py-12">
                   <MotionItem className="max-w-xl">
-                    <h2 className="font-heading text-xl font-semibold text-foreground sm:text-3xl">
+                    <h2 className="font-heading text-2xl font-semibold text-foreground sm:text-3xl">
                       Ready when you are.
                     </h2>
-                    <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                    <p className="mt-4 text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
                       Start with one link and keep your watchlist focused.
                     </p>
                   </MotionItem>
-                  <MotionItem className="flex flex-wrap justify-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:gap-3 sm:text-xs">
+                  <MotionItem className="flex flex-wrap justify-center gap-3 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:gap-3.5 sm:text-xs">
                     <span className="rounded-full border border-border/70 bg-background/70 px-3 py-1">
                       Free to start
                     </span>
@@ -332,33 +339,34 @@ export default async function Home() {
             </MotionReveal>
 
             <MotionReveal>
-              <section className="px-4 pb-20 sm:px-6 sm:pb-24 lg:px-8">
-                <div className="mx-auto w-full max-w-5xl">
-                  <MotionStagger className="mb-6 text-center sm:mb-8">
+              <section className="px-4 pb-24 pt-8 sm:px-6 sm:pb-28 sm:pt-10 lg:px-8 lg:pb-24 lg:pt-8 xl:pb-28">
+                <div className="mx-auto w-full max-w-6xl">
+                  <MotionStagger className="mb-8 text-center sm:mb-10 lg:mb-9">
                     <MotionItem>
-                      <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground sm:text-xs">
+                      <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
                         FAQ
                       </p>
                     </MotionItem>
                     <MotionItem>
-                      <h2 className="font-heading mt-2 text-2xl font-semibold text-foreground sm:text-3xl">
+                      <h2 className="font-heading mt-3 text-2xl font-semibold text-foreground sm:text-3xl">
                         Common questions
                       </h2>
                     </MotionItem>
                     <MotionItem>
-                      <p className="mt-3 text-sm text-muted-foreground sm:text-base">
-                        Quick answers for shoppers who want to track prices with less friction.
+                      <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+                        Quick answers for shoppers who want to track prices with
+                        less friction.
                       </p>
                     </MotionItem>
                   </MotionStagger>
-                  <MotionStagger className="grid gap-4 md:grid-cols-3">
+                  <MotionStagger className="grid gap-5 md:grid-cols-3 lg:gap-6">
                     {FAQS.map((item) => (
-                      <MotionItem key={item.question}>
-                        <article className="rounded-2xl border border-border/60 bg-card/70 p-5 text-left sm:p-6">
+                      <MotionItem key={item.question} className="h-full">
+                        <article className="h-full rounded-2xl border border-border/60 bg-card/70 p-6 text-left sm:p-7">
                           <h3 className="text-base font-semibold text-foreground">
                             {item.question}
                           </h3>
-                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          <p className="mt-3 text-sm leading-6 text-muted-foreground">
                             {item.answer}
                           </p>
                         </article>

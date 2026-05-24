@@ -1,4 +1,6 @@
-import { useRef, useEffect, useState } from 'react';
+"use client";
+
+import { useRef, useEffect, useState, type FC } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
 
 export type RaysOrigin =
@@ -24,6 +26,8 @@ interface LightRaysProps {
   mouseInfluence?: number;
   noiseAmount?: number;
   distortion?: number;
+  maxDpr?: number;
+  targetFps?: number;
   className?: string;
 }
 
@@ -81,7 +85,7 @@ interface Uniforms {
   distortion: { value: number };
 }
 
-const LightRays: React.FC<LightRaysProps> = ({
+const LightRays: FC<LightRaysProps> = ({
   raysOrigin = 'top-center',
   raysColor = DEFAULT_COLOR,
   raysSpeed = 1,
@@ -94,6 +98,8 @@ const LightRays: React.FC<LightRaysProps> = ({
   mouseInfluence = 0.1,
   noiseAmount = 0.0,
   distortion = 0.0,
+  maxDpr = 1.5,
+  targetFps = 45,
   className = ''
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -104,7 +110,9 @@ const LightRays: React.FC<LightRaysProps> = ({
   const animationIdRef = useRef<number | null>(null);
   const meshRef = useRef<Mesh | null>(null);
   const cleanupFunctionRef = useRef<(() => void) | null>(null);
+  const lastFrameTimeRef = useRef(0);
   const [isVisible, setIsVisible] = useState(false);
+  const [isSupported, setIsSupported] = useState(true);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -115,7 +123,7 @@ const LightRays: React.FC<LightRaysProps> = ({
         const entry = entries[0];
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { rootMargin: '160px 0px', threshold: 0.01 }
     );
 
     observerRef.current.observe(containerRef.current);
@@ -129,24 +137,40 @@ const LightRays: React.FC<LightRaysProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!isVisible || !containerRef.current) return;
+    if (!isVisible || !isSupported || !containerRef.current) return;
 
     if (cleanupFunctionRef.current) {
       cleanupFunctionRef.current();
       cleanupFunctionRef.current = null;
     }
 
+    let isCancelled = false;
+
     const initializeWebGL = async () => {
       if (!containerRef.current) return;
 
       await new Promise(resolve => setTimeout(resolve, 10));
 
-      if (!containerRef.current) return;
+      if (isCancelled || !containerRef.current) return;
 
-      const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
-        alpha: true
-      });
+      const { clientWidth, clientHeight } = containerRef.current;
+      if (clientWidth === 0 || clientHeight === 0) return;
+
+      let renderer: Renderer;
+      try {
+        renderer = new Renderer({
+          dpr: Math.min(window.devicePixelRatio || 1, maxDpr),
+          alpha: true,
+          antialias: false,
+          depth: false,
+          stencil: false
+        });
+      } catch (error) {
+        console.warn('LightRays WebGL initialization failed:', error);
+        setIsSupported(false);
+        return;
+      }
+
       rendererRef.current = renderer;
 
       const gl = renderer.gl;
@@ -293,9 +317,11 @@ void main() {
       const updatePlacement = () => {
         if (!containerRef.current || !renderer) return;
 
-        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
 
         const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
+        if (wCSS === 0 || hCSS === 0) return;
+
         renderer.setSize(wCSS, hCSS);
 
         const dpr = renderer.dpr;
@@ -314,6 +340,13 @@ void main() {
           return;
         }
 
+        const minFrameTime = 1000 / Math.max(targetFps, 1);
+        if (document.hidden || t - lastFrameTimeRef.current < minFrameTime) {
+          animationIdRef.current = requestAnimationFrame(loop);
+          return;
+        }
+
+        lastFrameTimeRef.current = t;
         uniforms.iTime.value = t * 0.001;
 
         if (followMouse && mouseInfluence > 0.0) {
@@ -334,7 +367,15 @@ void main() {
         }
       };
 
-      window.addEventListener('resize', updatePlacement);
+      const resizeObserver =
+        'ResizeObserver' in window ? new ResizeObserver(updatePlacement) : null;
+
+      if (resizeObserver && containerRef.current) {
+        resizeObserver.observe(containerRef.current);
+      } else {
+        window.addEventListener('resize', updatePlacement);
+      }
+
       updatePlacement();
       animationIdRef.current = requestAnimationFrame(loop);
 
@@ -344,6 +385,7 @@ void main() {
           animationIdRef.current = null;
         }
 
+        resizeObserver?.disconnect();
         window.removeEventListener('resize', updatePlacement);
 
         if (renderer) {
@@ -371,6 +413,8 @@ void main() {
     initializeWebGL();
 
     return () => {
+      isCancelled = true;
+
       if (cleanupFunctionRef.current) {
         cleanupFunctionRef.current();
         cleanupFunctionRef.current = null;
@@ -378,6 +422,7 @@ void main() {
     };
   }, [
     isVisible,
+    isSupported,
     raysOrigin,
     raysColor,
     raysSpeed,
@@ -389,7 +434,9 @@ void main() {
     followMouse,
     mouseInfluence,
     noiseAmount,
-    distortion
+    distortion,
+    maxDpr,
+    targetFps
   ]);
 
   useEffect(() => {
@@ -410,6 +457,8 @@ void main() {
     u.distortion.value = distortion;
 
     const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
+    if (wCSS === 0 || hCSS === 0) return;
+
     const dpr = renderer.dpr;
     const { anchor, dir } = getAnchorAndDir(raysOrigin, wCSS * dpr, hCSS * dpr);
     u.rayPos.value = anchor;
@@ -443,10 +492,10 @@ void main() {
     }
   }, [followMouse]);
 
-  return (
+    return (
     <div
       ref={containerRef}
-      className={`w-full h-full pointer-events-none z-3 overflow-hidden relative ${className}`.trim()}
+      className={`w-full h-full pointer-events-none overflow-hidden relative ${className}`.trim()}
     />
   );
 };

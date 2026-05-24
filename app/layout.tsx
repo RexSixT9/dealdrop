@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Sora } from "next/font/google";
+import { Geist } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 import PwaProvider from "@/components/PwaProvider";
@@ -9,12 +9,6 @@ import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const sora = Sora({
-  variable: "--font-sora",
   subsets: ["latin"],
   display: "swap",
 });
@@ -112,7 +106,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${sora.variable} h-full subpixel-antialiased`}
+      className={`${geistSans.variable} h-full subpixel-antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://images.weserv.nl" crossOrigin="anonymous" />
@@ -123,7 +117,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
