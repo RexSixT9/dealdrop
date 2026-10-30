@@ -1,5 +1,7 @@
 import { sendPriceDropAlert } from "@/lib/email";
 import { scrapeProduct } from "@/lib/firecrawl/firecrawl";
+import { SeenRelayClient } from "seenrelay";
+import { SeenRelayShadowProof } from "seenrelay/shadow-proof";
 import { createClient } from "@supabase/supabase-js";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
@@ -24,6 +26,11 @@ function normalizeCurrencyCode(value?: string, fallback = "USD") {
 }
 
 const DEFAULT_HISTORY_RETENTION_DAYS = 90;
+const DEFAULT_SHADOW_SAMPLE_LIMIT = 100;
+const DEFAULT_SHADOW_MAX_AGE_SECONDS = 900;
+const DEFAULT_SHADOW_AVOIDED_VALIDATION_COST = 1;
+const DEFAULT_SHADOW_CHECK_REQUEST_COST = 0;
+const DEFAULT_SHADOW_OBSERVE_REQUEST_COST = 0;
 
 function getHistoryRetentionDays() {
   const parsed = Number(process.env.PRICE_HISTORY_RETENTION_DAYS);
@@ -31,6 +38,52 @@ function getHistoryRetentionDays() {
     return DEFAULT_HISTORY_RETENTION_DAYS;
   }
   return Math.floor(parsed);
+}
+
+function getShadowSampleLimit() {
+  const parsed = Number(process.env.PRICE_CHECK_SHADOW_SAMPLE_LIMIT);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return DEFAULT_SHADOW_SAMPLE_LIMIT;
+  }
+  return Math.floor(parsed);
+}
+
+function getShadowMaxAgeSeconds() {
+  const parsed = Number(process.env.PRICE_CHECK_SHADOW_MAX_AGE_SECONDS);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return DEFAULT_SHADOW_MAX_AGE_SECONDS;
+  }
+  return Math.floor(parsed);
+}
+
+function getShadowCostConfig() {
+  const avoidedValidationCost = Number(
+    process.env.PRICE_CHECK_SHADOW_AVOIDED_VALIDATION_COST ??
+      DEFAULT_SHADOW_AVOIDED_VALIDATION_COST,
+  );
+  const checkRequestCost = Number(
+    process.env.PRICE_CHECK_SHADOW_CHECK_REQUEST_COST ??
+      DEFAULT_SHADOW_CHECK_REQUEST_COST,
+  );
+  const observeRequestCost = Number(
+    process.env.PRICE_CHECK_SHADOW_OBSERVE_REQUEST_COST ??
+      DEFAULT_SHADOW_OBSERVE_REQUEST_COST,
+  );
+
+  return {
+    avoidedValidationCost:
+      Number.isFinite(avoidedValidationCost) && avoidedValidationCost >= 0
+        ? avoidedValidationCost
+        : DEFAULT_SHADOW_AVOIDED_VALIDATION_COST,
+    checkRequestCost:
+      Number.isFinite(checkRequestCost) && checkRequestCost >= 0
+        ? checkRequestCost
+        : DEFAULT_SHADOW_CHECK_REQUEST_COST,
+    observeRequestCost:
+      Number.isFinite(observeRequestCost) && observeRequestCost >= 0
+        ? observeRequestCost
+        : DEFAULT_SHADOW_OBSERVE_REQUEST_COST,
+  };
 }
 
 async function pruneOldHistory(
@@ -92,6 +145,15 @@ async function runPriceCheck(request: Request) {
     );
 
     const retentionDays = getHistoryRetentionDays();
+    const shadowSampleLimit = getShadowSampleLimit();
+    const shadowMaxAgeSeconds = getShadowMaxAgeSeconds();
+    const shadowCostConfig = getShadowCostConfig();
+    const shadowProof = new SeenRelayShadowProof(
+      new SeenRelayClient({
+        clientHint: "dealdrop-price-check-shadow",
+      }),
+    );
+    let shadowSampledChecks = 0;
 
     const { data: products, error: productsError } = await supabase
       .from("products")
@@ -106,6 +168,14 @@ async function runPriceCheck(request: Request) {
       priceChanges: 0,
       alertsSent: 0,
       historyPruned: 0,
+      shadowMeasurement: null as
+        | null
+        | {
+            sampleLimit: number;
+            sampledChecks: number;
+            maxAgeSeconds: number;
+            report: ReturnType<SeenRelayShadowProof["report"]>;
+          },
     };
 
     if (!products || products.length === 0) {
@@ -125,7 +195,25 @@ async function runPriceCheck(request: Request) {
 
     for (const product of products) {
       try {
-        const productData = await scrapeProduct(product.url);
+        const knownValue = Number(product.current_price);
+        const shouldShadowMeasure =
+          shadowSampledChecks < shadowSampleLimit && Number.isFinite(knownValue);
+
+        const productData = shouldShadowMeasure
+          ? await (async () => {
+              shadowSampledChecks++;
+              return shadowProof.guard({
+                fact: {
+                  subject: `Product ${product.id} current price`,
+                  predicate: "price.current",
+                  source: product.url,
+                },
+                knownValue,
+                maxAgeSeconds: shadowMaxAgeSeconds,
+                validate: async () => scrapeProduct(product.url),
+              });
+            })()
+          : await scrapeProduct(product.url);
 
         if (productData.currentPrice == null) {
           console.warn("Missing currentPrice from scrape", {
@@ -229,6 +317,17 @@ async function runPriceCheck(request: Request) {
         console.error(`Error processing product ${product.id}:`, error);
         results.failed++;
       }
+    }
+
+    if (shadowSampledChecks > 0) {
+      const report = shadowProof.report(shadowCostConfig);
+      results.shadowMeasurement = {
+        sampleLimit: shadowSampleLimit,
+        sampledChecks: shadowSampledChecks,
+        maxAgeSeconds: shadowMaxAgeSeconds,
+        report,
+      };
+      console.log("SeenRelay shadow measurement report", results.shadowMeasurement);
     }
 
     results.historyPruned = await pruneOldHistory(supabase, retentionDays);
