@@ -1,14 +1,19 @@
 # DealDrop
-> DealDrop is a SaaS price-tracking platform that monitors public product pages and sends price-drop alerts.
 
-## Primary URLs
-- https://deals.r6t9.space/
-- https://deals.r6t9.space/terms-privacy
+> DealDrop is a price-tracking web app that monitors public product pages and emails users when a price drops to their target.
 
-## Product Summary
-- Track product prices and receive email alerts when prices drop.
-- Manage a personal watchlist with price history.
-- Uses third-party services for data extraction and email delivery.
+DealDrop is free to start, requires no app install, and keeps a private watchlist with 90-day price history. Prices are extracted with Firecrawl and alert emails are delivered with Resend.
 
-## Support
-- https://github.com/RexSixT9/dealdrop
+- Track products by URL and set a target price.
+- Review the last 90 days of price changes per product.
+- Receive email alerts when a tracked product drops.
+- Sign in with Google or GitHub via Supabase auth.
+
+## Pages
+
+- [DealDrop home](https://deals.r6t9.space/): Product overview, tracking form, watchlist, and FAQ.
+- [Terms and Privacy](https://deals.r6t9.space/terms-privacy): Terms of Service and Privacy Policy, including data use, retention, and third-party processors.
+
+## Optional
+
+- [Source code](https://github.com/RexSixT9/dealdrop): Next.js, Supabase, Firecrawl, and Resend implementation.
