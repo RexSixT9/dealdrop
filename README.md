@@ -1,5 +1,4 @@
-# DealDrop
-
+<!-- # DealDrop -->
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="public/logo-navbar-dark-compact.svg" />
