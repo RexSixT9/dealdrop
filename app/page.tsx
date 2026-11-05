@@ -244,6 +244,7 @@ export default async function Home() {
           <>
             <MotionReveal>
               <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-16 xl:py-20">
+                <h2 className="sr-only">Why DealDrop</h2>
                 <MotionStagger className="mx-auto grid w-full max-w-6xl items-stretch gap-5 sm:gap-6 lg:grid-cols-3 lg:gap-7">
                   {HIGHLIGHTS.map((item) => (
                     <MotionItem
