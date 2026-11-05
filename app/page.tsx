@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { ModeToggle } from "@/components/mode-toggle";
+import Link from "next/link";
 import AddProductForm from "@/components/AddProductForm";
-import AuthButton from "@/components/AuthButton";
-import Logo from "@/components/Logo";
 import MotionPage from "@/components/MotionPage";
+import SiteHeader from "@/components/SiteHeader";
 import {
   MotionItem,
   MotionReveal,
@@ -15,9 +14,10 @@ import type { TrackedProduct } from "@/components/ProductCard";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
 import { ArrowUpRight, Sparkles, TrendingDown } from "lucide-react";
 import { FAQS, HIGHLIGHTS, STEPS } from "@/constants/data";
+import { GUIDES } from "@/constants/guides";
+import { siteDescription, siteName, siteUrl } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
 const DEFAULT_TRACKING_LIMIT = 4;
 
 function getTrackingLimit() {
@@ -28,8 +28,7 @@ function getTrackingLimit() {
 
 export const metadata: Metadata = {
   title: "DealDrop - Price Tracker & Alerts",
-  description:
-    "DealDrop tracks product prices, sends instant email alerts, and helps shoppers catch discounts before they disappear.",
+  description: siteDescription,
   alternates: {
     canonical: "/",
   },
@@ -37,8 +36,7 @@ export const metadata: Metadata = {
     type: "website",
     url: siteUrl,
     title: "DealDrop | Price Tracker & Alerts",
-    description:
-      "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+    description: siteDescription,
     images: [
       {
         url: `${siteUrl}/opengraph-image`,
@@ -51,8 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "DealDrop | Price Tracker & Alerts",
-    description:
-      "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+    description: siteDescription,
     images: [`${siteUrl}/opengraph-image`],
   },
 };
@@ -69,10 +66,29 @@ const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "DealDrop",
+    name: siteName,
     url: siteUrl,
-    description:
-      "Track product prices, get instant drop alerts, and stay ready for the best time to buy.",
+    description: siteDescription,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: siteName,
+    applicationCategory: "ShoppingApplication",
+    operatingSystem: "Web",
+    url: siteUrl,
+    description: siteDescription,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    featureList: [
+      "Product price tracking",
+      "Email price-drop alerts",
+      "Price history charts",
+      "Personal watchlist",
+    ],
   },
   {
     "@context": "https://schema.org",
@@ -122,17 +138,7 @@ export default async function Home() {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
         <LightRaysBackground />
 
-        <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
-          <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-            <div className="flex min-w-0 items-center gap-3">
-              <Logo variant="compact" />
-            </div>
-            <div className="flex shrink-0 items-center gap-2 max-[360px]:gap-1.5 sm:gap-3">
-              <ModeToggle />
-              <AuthButton user={user} />
-            </div>
-          </nav>
-        </header>
+        <SiteHeader user={user} />
 
         <MotionReveal>
           <section className="flex min-h-[82svh] items-center px-4 pb-14 pt-12 sm:min-h-[78svh] sm:px-6 sm:pb-20 sm:pt-16 lg:min-h-[640px] lg:px-8 lg:pb-16 lg:pt-20 xl:min-h-[680px] 2xl:min-h-[720px]">
@@ -340,7 +346,65 @@ export default async function Home() {
             </MotionReveal>
 
             <MotionReveal>
-              <section className="px-4 pb-24 pt-8 sm:px-6 sm:pb-28 sm:pt-10 lg:px-8 lg:pb-24 lg:pt-8 xl:pb-28">
+              <section id="guides" className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-16 xl:py-20">
+                <div className="mx-auto w-full max-w-6xl">
+                  <MotionStagger className="mb-8 text-center sm:mb-10 lg:mb-9">
+                    <MotionItem>
+                      <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:text-xs">
+                        Guides
+                      </p>
+                    </MotionItem>
+                    <MotionItem>
+                      <h2 className="font-heading mt-3 text-2xl font-semibold text-foreground sm:text-3xl">
+                        Make a more informed buy.
+                      </h2>
+                    </MotionItem>
+                    <MotionItem>
+                      <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
+                        Short, practical reads on price tracking, sale cycles,
+                        and spotting a discount that is actually worth it.
+                      </p>
+                    </MotionItem>
+                  </MotionStagger>
+                  <MotionStagger className="grid gap-5 md:grid-cols-3 lg:gap-6">
+                    {GUIDES.map((guide) => (
+                      <MotionItem key={guide.slug} className="h-full">
+                        <Link
+                          href={`/guides/${guide.slug}`}
+                          className="group flex h-full flex-col rounded-2xl border border-border/60 bg-card/70 p-6 text-left transition-colors hover:border-primary/40 hover:bg-card/90 sm:p-7"
+                        >
+                          <p className="text-[11px] font-medium uppercase tracking-wide text-primary sm:text-xs">
+                            {guide.readingTime} min read
+                          </p>
+                          <h3 className="mt-3 text-base font-semibold text-foreground">
+                            {guide.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                            {guide.excerpt}
+                          </p>
+                          <span className="mt-auto inline-flex items-center gap-1 pt-5 text-sm font-medium text-primary">
+                            Read guide
+                            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                          </span>
+                        </Link>
+                      </MotionItem>
+                    ))}
+                  </MotionStagger>
+                  <div className="mt-8 flex justify-center">
+                    <Link
+                      href="/guides"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+                    >
+                      Browse all guides
+                      <ArrowUpRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </section>
+            </MotionReveal>
+
+            <MotionReveal>
+              <section id="faq" className="px-4 pb-24 pt-8 sm:px-6 sm:pb-28 sm:pt-10 lg:px-8 lg:pb-24 lg:pt-8 xl:pb-28">
                 <div className="mx-auto w-full max-w-6xl">
                   <MotionStagger className="mb-8 text-center sm:mb-10 lg:mb-9">
                     <MotionItem>

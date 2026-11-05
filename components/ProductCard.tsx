@@ -7,6 +7,7 @@ import {
   Trash2,
   TrendingDown,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { deleteProduct } from "@/app/auth/actions";
 import { toast } from "sonner";
@@ -14,9 +15,16 @@ import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import PriceChart from "./PriceChart";
 import Image from "next/image";
 import { productImageLoader } from "@/lib/image-loader";
+
+const PriceChart = dynamic(() => import("./PriceChart"), {
+  loading: () => (
+    <div className="flex w-full items-center justify-center py-8 text-sm text-muted-foreground">
+      Loading chart...
+    </div>
+  ),
+});
 
 export type TrackedProduct = {
   id: string;
@@ -137,7 +145,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       {showChart && (
         <CardFooter className="pt-0">
-          <PriceChart productId={product.id} />
+          <PriceChart
+            productId={product.id}
+            currency={product.currency}
+          />
         </CardFooter>
       )}
     </Card>

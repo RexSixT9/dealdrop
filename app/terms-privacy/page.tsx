@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { FileText } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
-import AuthButton from "@/components/AuthButton";
-import Logo from "@/components/Logo";
 import MotionPage from "@/components/MotionPage";
+import SiteHeader from "@/components/SiteHeader";
 import {
   MotionItem,
   MotionReveal,
   MotionStagger,
 } from "@/components/MotionReveal";
+import { defaultOpenGraphImage, siteUrl } from "@/lib/site";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
+const description =
+  "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.";
 
 export const metadata: Metadata = {
   title: "Terms and Privacy Policy",
-  description:
-    "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
+  description,
   alternates: {
     canonical: "/terms-privacy",
   },
@@ -25,16 +25,21 @@ export const metadata: Metadata = {
     type: "website",
     url: `${siteUrl}/terms-privacy`,
     title: "Terms and Privacy Policy | DealDrop",
-    description:
-      "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
+    description,
+    images: [defaultOpenGraphImage],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Terms and Privacy Policy | DealDrop",
-    description:
-      "Terms of Service and Privacy Policy for DealDrop, including data use, alerts, and account responsibilities.",
+    description,
+    images: [defaultOpenGraphImage.url],
   },
 };
+
+const breadcrumbs = [
+  { name: "Home", href: "/" },
+  { name: "Terms and Privacy", href: "/terms-privacy" },
+];
 
 const sections = [
   {
@@ -117,24 +122,36 @@ export default async function TermsPrivacyPage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd(breadcrumbs)),
+        }}
+      />
       <MotionPage className="relative isolate overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
 
-        <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
-          <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-            <div className="flex min-w-0 items-center gap-3">
-              <Logo variant="compact" />
-            </div>
-            <div className="flex shrink-0 items-center gap-2 max-[360px]:gap-1.5 sm:gap-3">
-              <ModeToggle />
-              <AuthButton user={user} />
-            </div>
-          </nav>
-        </header>
+        <SiteHeader user={user} />
 
         <MotionReveal animateOnLoad>
           <section className="px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:px-8">
+            <nav
+              aria-label="Breadcrumb"
+              className="mx-auto mb-8 w-full max-w-3xl text-sm text-muted-foreground"
+            >
+              <ol className="flex flex-wrap items-center gap-1.5">
+                <li>
+                  <Link href="/" className="transition-colors hover:text-foreground">
+                    Home
+                  </Link>
+                </li>
+                <li aria-hidden="true">/</li>
+                <li aria-current="page" className="text-foreground">
+                  Terms and Privacy
+                </li>
+              </ol>
+            </nav>
             <MotionStagger
               className="mx-auto flex w-full max-w-3xl flex-col gap-10"
               animateOnLoad

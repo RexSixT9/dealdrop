@@ -1,8 +1,33 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, RefreshCw, WifiOff } from "lucide-react";
-import { ModeToggle } from "@/components/mode-toggle";
-import AuthButton from "@/components/AuthButton";
-import Logo from "@/components/Logo";
+import SiteHeader from "@/components/SiteHeader";
+import { defaultOpenGraphImage, siteUrl } from "@/lib/site";
+
+const description =
+  "You are offline. Reconnect to continue tracking product prices with DealDrop.";
+
+export const metadata: Metadata = {
+  title: "Offline",
+  description,
+  robots: {
+    index: false,
+    follow: false,
+  },
+  openGraph: {
+    type: "website",
+    url: `${siteUrl}/offline`,
+    title: "Offline | DealDrop",
+    description,
+    images: [defaultOpenGraphImage],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Offline | DealDrop",
+    description,
+    images: [defaultOpenGraphImage.url],
+  },
+};
 
 export default function OfflinePage() {
   const user = null;
@@ -13,17 +38,7 @@ export default function OfflinePage() {
         <div className="pointer-events-none absolute inset-0 -z-10 bg-copper-forge" />
         <div className="pointer-events-none absolute inset-0 -z-10 bg-grid opacity-20 dark:opacity-30" />
 
-        <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
-          <nav className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-            <div className="flex min-w-0 items-center gap-3">
-              <Logo variant="full" />
-            </div>
-            <div className="flex shrink-0 items-center gap-2 max-[360px]:gap-1.5 sm:gap-3">
-              <ModeToggle />
-              <AuthButton user={user} />
-            </div>
-          </nav>
-        </header>
+        <SiteHeader user={user} />
 
         <section className="flex min-h-[calc(100svh-64px)] items-center px-4 pb-12 pt-14 sm:min-h-[calc(100svh-72px)] sm:px-6 sm:pb-16 sm:pt-20 lg:px-8">
           <div className="mx-auto flex w-full max-w-3xl flex-col items-center gap-5 text-center sm:gap-7">

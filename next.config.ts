@@ -29,6 +29,13 @@ const securityHeaders = [
   },
 ];
 
+const noIndexHeaders = [
+  {
+    key: "X-Robots-Tag",
+    value: "noindex, nofollow",
+  },
+];
+
 const nextConfig: NextConfig = {
   // logging: { fetches: { fullUrl: true } },
   allowedDevOrigins: ["192.168.1.*", "localhost", "127.0.0.1"],
@@ -37,6 +44,22 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: securityHeaders,
+      },
+      {
+        source: "/redirect",
+        headers: noIndexHeaders,
+      },
+      {
+        source: "/api/:path*",
+        headers: noIndexHeaders,
+      },
+      {
+        source: "/auth/:path*",
+        headers: noIndexHeaders,
+      },
+      {
+        source: "/offline",
+        headers: noIndexHeaders,
       },
     ];
   },

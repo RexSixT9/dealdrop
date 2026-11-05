@@ -1,14 +1,14 @@
 import type { MetadataRoute } from "next";
+import { absoluteUrl, siteUrl } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl =
-    process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
-
   return {
     rules: {
       userAgent: "*",
       allow: "/",
+      disallow: ["/api/", "/auth/", "/redirect", "/offline"],
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: absoluteUrl("/sitemap.xml"),
+    host: siteUrl,
   };
 }

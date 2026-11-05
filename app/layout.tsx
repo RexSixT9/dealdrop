@@ -6,6 +6,12 @@ import PwaProvider from "@/components/PwaProvider";
 import OfflineBanner from "@/components/OfflineBanner";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  defaultOpenGraphImage,
+  siteDescription,
+  siteName,
+  siteUrl,
+} from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,16 +19,13 @@ const geistSans = Geist({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://deals.r6t9.space";
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: "DealDrop | Price Tracker & Alerts",
     template: "%s | DealDrop",
   },
-  description:
-    "Track product prices from your favorite stores and get instant alerts when prices drop.",
+  description: siteDescription,
   keywords: [
     "price tracker",
     "price drop alerts",
@@ -30,10 +33,10 @@ export const metadata: Metadata = {
     "product monitoring",
     "shopping alerts",
   ],
-  applicationName: "DealDrop",
-  alternates: {
-    canonical: "/",
-  },
+  applicationName: siteName,
+  authors: [{ name: siteName, url: siteUrl }],
+  creator: siteName,
+  publisher: siteName,
   icons: {
     icon: [
       // PNG defaults for broad mobile/browser support
@@ -70,19 +73,16 @@ export const metadata: Metadata = {
   // Open Graph / social share
   openGraph: {
     type: "website",
-    url: "/",
-    siteName: "DealDrop",
+    siteName,
     title: "DealDrop | Price Tracker & Alerts",
-    description:
-      "Track product prices from your favorite stores and get instant alerts when prices drop.",
-    images: [{ url: "/favicon-512.png", width: 512, height: 512, alt: "DealDrop" }],
+    description: siteDescription,
+    images: [defaultOpenGraphImage],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "DealDrop | Price Tracker & Alerts",
-    description:
-      "Track product prices from your favorite stores and get instant alerts when prices drop.",
-    images: ["/favicon-512.png"],
+    description: siteDescription,
+    images: [defaultOpenGraphImage.url],
   },
   robots: {
     index: true,
@@ -113,6 +113,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://images.weserv.nl" />
         <link rel="preconnect" href="https://m.media-amazon.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://m.media-amazon.com" />
+        <link rel="describedby" href="/llms.txt" type="text/plain" />
       </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider

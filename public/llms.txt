@@ -13,6 +13,15 @@ DealDrop is free to start, requires no app install, and keeps a private watchlis
 
 - [DealDrop home](https://deals.r6t9.space/): Product overview, tracking form, watchlist, and FAQ.
 - [Terms and Privacy](https://deals.r6t9.space/terms-privacy): Terms of Service and Privacy Policy, including data use, retention, and third-party processors.
+- [About](https://deals.r6t9.space/about): Why DealDrop exists, what it does, and what it does not do.
+- [Methodology](https://deals.r6t9.space/methodology): How prices are collected, how often they are checked, and the limitations of the data.
+
+## Guides
+
+- [Price tracking guides](https://deals.r6t9.space/guides): Practical guides on targets, price history, and sale cycles.
+- [How to track product prices](https://deals.r6t9.space/guides/how-to-track-product-prices): Choosing the right URL, setting a useful target, and acting on alerts.
+- [How to read a price history chart](https://deals.r6t9.space/guides/how-to-read-price-history): Understanding baselines, temporary spikes, and fake discounts.
+- [Why prices drop](https://deals.r6t9.space/guides/why-prices-drop): Sales cycles, clearance, dynamic pricing, and a practical buying checklist.
 
 ## Optional
 

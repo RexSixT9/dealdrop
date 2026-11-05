@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import {
   LineChart,
   Line,
@@ -15,7 +15,20 @@ import { useTheme } from "next-themes";
 
 type PriceChartProps = {
   productId: string;
+  currency?: string | null;
 };
+
+function formatPrice(value: number, currency: string) {
+  try {
+    return new Intl.NumberFormat("en", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 2,
+    }).format(value);
+  } catch {
+    return `${currency} ${value.toFixed(2)}`;
+  }
+}
 
 type PriceChartPoint = {
   date: string;
@@ -78,11 +91,13 @@ async function fetchPriceHistory(productId: string) {
   return request;
 }
 
-export default function PriceChart({ productId }: PriceChartProps) {
+export default function PriceChart({ productId, currency }: PriceChartProps) {
   const [data, setData] = useState<PriceChartPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { resolvedTheme } = useTheme();
+  const chartId = useId();
+  const currencyCode = currency ?? "USD";
 
   const isDark = resolvedTheme === "dark";
   const gridColor = isDark ? "#3f3f46" : "#e5e7eb";
@@ -151,36 +166,88 @@ export default function PriceChart({ productId }: PriceChartProps) {
     );
   }
 
+  const prices = data.map((point) => point.price);
+  const lowestPrice = Math.min(...prices);
+  const highestPrice = Math.max(...prices);
+  const latestPoint = data[data.length - 1];
+  const titleId = `${chartId}-title`;
+  const descriptionId = `${chartId}-description`;
+  const summary = `Price history with ${data.length} checkpoints from ${
+    data[0].date
+  } to ${latestPoint.date}. Latest price ${formatPrice(
+    latestPoint.price,
+    currencyCode,
+  )}. Lowest ${formatPrice(lowestPrice, currencyCode)}. Highest ${formatPrice(
+    highestPrice,
+    currencyCode,
+  )}.`;
+
   return (
-    <div className="w-full">
-      <h4 className="mb-4 text-sm font-semibold text-muted-foreground">
-        Price History
+    <figure
+      className="w-full"
+      aria-labelledby={titleId}
+      aria-describedby={descriptionId}
+    >
+      <h4
+        id={titleId}
+        className="mb-4 text-sm font-semibold text-muted-foreground"
+      >
+        Price history
       </h4>
-      <ResponsiveContainer width="100%" height={220}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
-          <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke={axisColor} />
-          <YAxis tick={{ fontSize: 12 }} stroke={axisColor} width={42} />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: tooltipBg,
-              border: `1px solid ${tooltipBorder}`,
-              borderRadius: "6px",
-              color: axisColor,
-            }}
-            labelStyle={{ color: axisColor }}
-            itemStyle={{ color: accentColor }}
-          />
-          <Line
-            type="monotone"
-            dataKey="price"
-            stroke={accentColor}
-            strokeWidth={2}
-            dot={{ fill: accentColor, r: 4 }}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+      <p id={descriptionId} className="sr-only">
+        {summary}
+      </p>
+      <div aria-hidden="true">
+        <ResponsiveContainer width="100%" height={220}>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} />
+            <XAxis dataKey="date" tick={{ fontSize: 12 }} stroke={axisColor} />
+            <YAxis
+              tick={{ fontSize: 12 }}
+              stroke={axisColor}
+              width={54}
+              tickFormatter={(value) =>
+                formatPrice(Number(value), currencyCode)
+              }
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: tooltipBg,
+                border: `1px solid ${tooltipBorder}`,
+                borderRadius: "6px",
+                color: axisColor,
+              }}
+              labelStyle={{ color: axisColor }}
+              itemStyle={{ color: accentColor }}
+            />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke={accentColor}
+              strokeWidth={2}
+              dot={{ fill: accentColor, r: 4 }}
+              activeDot={{ r: 6 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <table className="sr-only">
+        <caption>Price history</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((point, index) => (
+            <tr key={`${point.date}-${index}`}>
+              <td>{point.date}</td>
+              <td>{formatPrice(point.price, currencyCode)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </figure>
   );
 }
